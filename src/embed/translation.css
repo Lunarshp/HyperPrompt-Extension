@@ -1,0 +1,181 @@
+html,
+body {
+  height: auto;
+  overflow: visible;
+  background: transparent;
+}
+
+#hp-embed-root {
+  display: block;
+  height: auto;
+}
+
+/* Security stays in the extension iframe; the card itself mirrors main's rich result toast. */
+.translation-shell {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 16px 20px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: #cbd5e1;
+  font-size: 13px;
+  line-height: 1.6;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  opacity: 1;
+  transform: translateX(0);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+}
+
+body.hp-toast-hiding .translation-shell {
+  opacity: 1;
+  transform: none;
+}
+
+.translation-shell .hp-embed-titlebar {
+  align-items: center;
+  padding: 0;
+  border: 0;
+  margin-bottom: 12px;
+}
+
+.translation-heading {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  align-items: center;
+  gap: 10px;
+}
+
+.translation-shell .hp-embed-title {
+  color: #9be8d6;
+  font-family: 'Outfit', 'Inter', sans-serif;
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.translation-status {
+  overflow: hidden;
+  color: #94a3b8;
+  font-size: 11px;
+  line-height: 1.5;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.translation-status.success { color: #9be8d6; }
+.translation-status.error { color: #fca5a5; }
+
+/* Main rich toast has no persistent close/retry controls; outside click, Escape and 10s own dismissal. */
+.translation-shell .hp-embed-close { display: none; }
+
+.translation-main {
+  display: block;
+  min-height: 0;
+  padding: 0;
+}
+
+.translation-view-label { display: none; }
+
+.translation-output {
+  max-height: 120px;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0 6px 0 0;
+  border: 0;
+  background: transparent;
+  color: #e2e8f0;
+  font-size: 12.5px;
+  line-height: 1.6;
+  word-break: break-word;
+  scrollbar-color: rgba(16, 185, 129, 0.2) transparent;
+  scrollbar-width: thin;
+  user-select: text;
+  white-space: pre-wrap;
+}
+.translation-output::-webkit-scrollbar { width: 3px; }
+.translation-output::-webkit-scrollbar-thumb { border-radius: 2px; background: rgba(16, 185, 129, 0.25); }
+
+.translation-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-start;
+  margin: 14px 0 4px;
+  padding: 0;
+}
+
+.translation-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 0;
+  padding: 6px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #cbd5e1;
+  font-family: 'Inter', sans-serif;
+  font-size: 11.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+}
+
+.translation-btn svg { width: 13px; height: 13px; flex: none; }
+.translation-btn .spinner { animation: translation-spin 1s linear infinite; }
+
+body.hp-translation-notice .translation-shell .hp-embed-titlebar { margin-bottom: 0; }
+body.hp-translation-notice .translation-shell .hp-embed-title {
+  color: #9be8d6;
+  font: 600 13px/1.5 'Outfit', 'Inter', sans-serif;
+  white-space: normal;
+}
+body.hp-translation-notice .translation-main,
+body.hp-translation-notice .translation-actions { display: none; }
+
+.translation-btn:hover {
+  border-color: rgba(16, 185, 129, 0.3);
+  background: rgba(16, 185, 129, 0.12);
+  color: #34d399;
+  transform: translateY(-1px);
+}
+.translation-btn:active { transform: scale(0.95); }
+.translation-btn.active {
+  border-color: rgba(16, 185, 129, 0.4);
+  background: rgba(16, 185, 129, 0.16);
+  color: #9be8d6;
+}
+
+.translation-toast-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: rgba(155, 232, 214, 0.6);
+  transform-origin: left;
+}
+
+.translation-toast-progress.counting { animation: translation-toast-countdown 10s linear forwards; }
+.translation-toast-progress.paused { animation-play-state: paused; }
+
+@keyframes translation-toast-countdown {
+  from { transform: scaleX(1); }
+  to { transform: scaleX(0); }
+}
+
+@keyframes translation-spin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .translation-btn { transition: none; }
+}

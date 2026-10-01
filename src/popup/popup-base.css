@@ -1,0 +1,254 @@
+/* html 纯暗底兜底：popup 窗口按显示缩放取整会多出 <1px 的缝（右/下黑线），
+   缝里露的是这层——必须是暗色，绝不能透出浏览器白背板或黑背板反差 */
+html {
+  background: #0f172a !important;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  /* 528/420 都能被 1.25/1.5/1.75 缩放乘成整数（530×1.25=662.5 的取整尾差就是下边黑线来源） */
+  width: 420px;
+  height: 528px;
+  overflow: hidden;
+  border: none !important;
+  outline: none !important;
+}
+body {
+  /* A 路线（对齐设置页本体）：摄影图铺底 + 暗化叠层（popup 窗口本体方角，
+     窗框区调暗才不显白角——HP：最大限度圆角观感）+ 提透暗玻璃壳悬浮其上 */
+  background: linear-gradient(rgba(15, 23, 42, 0.62), rgba(15, 23, 42, 0.62)),
+              url('../../assets/bg/console-bg.jpg') center / cover no-repeat, #1e293b !important;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #cbd5e1;
+  position: relative;
+  /* 圆角浮卡（HP 定）：popup 窗口本体是浏览器画的方角，改不了——
+     四周留边露摄影图底当「窗框」，玻璃壳自身圆角，视觉上即圆角风 */
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* 滚动条全局主题化（自家页面，任何容器都不许露系统白件） */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.12); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.2); }
+
+/* 提透暗玻璃壳（对齐设置页 .container 定值：rgba(19,28,44,.56)+blur36+sat150）。
+   极光发光球已随 A 路线退役（摄影图底自带氛围；紫球=品牌外色永不回加）。 */
+.popup-shell {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: rgba(19, 28, 44, 0.42);
+  backdrop-filter: blur(36px) saturate(150%);
+  -webkit-backdrop-filter: blur(36px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 18px;
+  box-shadow: 0 14px 40px rgba(15, 23, 42, 0.30),
+              inset 0 1px 1px rgba(255, 255, 255, 0.07);
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+  outline: none !important;
+}
+
+.popup-header {
+  background: rgba(255, 255, 255, 0.025);
+  backdrop-filter: blur(12px) saturate(130%);
+  -webkit-backdrop-filter: blur(12px) saturate(130%);
+  color: white;
+  padding: 22px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  z-index: 3; /* 置于发光球之上 */
+}
+
+.header-title-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 3;
+}
+
+.header-logo-container {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(82, 166, 143, 0.08);
+  border-radius: 9px;
+  border: 1px solid rgba(82, 166, 143, 0.25);
+  box-shadow: 0 4px 12px rgba(82, 166, 143, 0.12);
+  animation: float 4s ease-in-out infinite;
+}
+
+.header-logo-svg {
+  width: 18px;
+  height: 18px;
+  filter: drop-shadow(0 2px 6px rgba(82, 166, 143, 0.35));
+}
+
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-3px) rotate(4deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+.popup-header h1 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  background: linear-gradient(135deg, #ffffff 40%, #d7e0ec 75%, #52a68f 100%); /* 白→浅 slate→鼠尾草（紫蓝 #c7d2fe 已清） */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 15px rgba(82, 166, 143, 0.25);
+}
+
+.popup-content {
+  background: transparent;
+  padding: 16px 18px;
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.08) transparent;
+  position: relative;
+  z-index: 3;
+}
+
+.popup-content::-webkit-scrollbar {
+  width: 4px;
+  display: block;
+}
+
+.popup-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 99px;
+}
+
+.status {
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 500;
+  display: none;
+  animation: slideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-8px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.status.show {
+  display: block;
+}
+
+.status.success {
+  background: rgba(16, 185, 129, 0.08);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.15);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.05);
+}
+
+.status.error {
+  background: rgba(239, 68, 68, 0.08);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.05);
+}
+
+.status.loading {
+  background: rgba(59, 130, 246, 0.08);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.15);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.05);
+}
+
+.recent-history h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #94a3b8;
+  padding-left: 2px;
+  letter-spacing: 0.01em;
+}
+
+.history-list {
+  padding-bottom: 2px;
+}
+
+/* 未配 API 时的引导 CTA（QW11） */
+.empty-api-cta {
+  margin-top: 14px;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, rgba(50, 123, 104, 0.24), rgba(20, 184, 166, 0.10));
+  color: #9be8d6;
+  border: 1px solid rgba(52, 166, 143, 0.42);
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.18s ease;
+}
+.empty-api-cta:hover { filter: brightness(1.08); }
+
+/* 常驻引导条：CTA 在有历史时的布局改写（复用 .empty-api-cta 按钮皮肤，去掉空态专属的居中间距） */
+.guide-cta-persist {
+  display: block;
+  width: 100%;
+  margin: 0 0 10px 0;
+}
+
+/* 常驻轻指引：悬停反推提示（可关闭，UX 波A-δ item2） */
+.hover-tip-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 7px 10px 7px 12px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  background: rgba(82, 166, 143, 0.06);
+  border: 1px solid rgba(82, 166, 143, 0.16);
+}
+
+.hover-tip-text {
+  font-size: 11px;
+  color: #94a3b8;
+  line-height: 1.4;
+}
+
+.hover-tip-close {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  font-size: 11px;
+  cursor: pointer;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.hover-tip-close:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #f1f5f9;
+}

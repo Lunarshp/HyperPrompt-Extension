@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="./embed-lang.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HyperPrompt Batch Reverse</title>
+  <link rel="stylesheet" href="../shared/styles/fonts.css">
+  <link rel="stylesheet" href="../../assets/css/content.css">
+  <link rel="stylesheet" href="./embed.css">
+  <link rel="stylesheet" href="./modal-overrides.css">
+  <style>
+    #hyperprompt-modal { font-family: 'Inter', sans-serif; }
+    #hp-batch-urls {
+      resize: vertical;
+      outline: none;
+    }
+    #hp-batch-urls:focus,
+    #hp-batch-drop:focus-within {
+      border-color: rgba(69, 201, 171, 0.55) !important;
+      box-shadow: 0 0 0 2px rgba(20, 184, 166, 0.10);
+    }
+    .hp-batch-row img,
+    #hp-batch-scan-grid img {
+      background: rgba(15, 23, 42, 0.55);
+    }
+    button:disabled {
+      cursor: not-allowed !important;
+    }
+  </style>
+</head>
+<body class="hp-modal-surface">
+<div id="hp-embed-root"></div>
+<!-- All batch state and sensitive bytes stay in this extension-origin page. -->
+<script src="../shared/asset-shell.js"></script>
+<script src="../shared/builtin-rules.js"></script>
+<script src="../shared/overlay-locales.js"></script>
+<script src="../content/content-common.js"></script>
+<script src="../content/content-select-ui.js"></script>
+<script src="../content/content-streaming.js"></script>
+<script src="./embed-common.js"></script>
+<script src="../content/content-rules.js"></script>
+<script src="./page-image.js"></script>
+<script src="../content/content-batch.js"></script>
+</body>
+</html>

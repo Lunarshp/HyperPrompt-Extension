@@ -1,0 +1,12 @@
+/* 本地字体（δ：弃远程字体 CDN，改用打包内 assets/fonts/ 本地声明；Inter 300 全站未用故不引）
+   来源：main/src/options/options.html 第 10-18 行（CSS 外置拆分时曾整体弄丢，此文件复原）。
+   相对路径基准 = 本文件所在目录 src/shared/styles/，向上三级到仓库根再接 assets/fonts/。 */
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 400; font-display: swap; src: url('../../../assets/fonts/inter-400.woff2') format('woff2'); }
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 500; font-display: swap; src: url('../../../assets/fonts/inter-500.woff2') format('woff2'); }
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 600; font-display: swap; src: url('../../../assets/fonts/inter-600.woff2') format('woff2'); }
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 700; font-display: swap; src: url('../../../assets/fonts/inter-700.woff2') format('woff2'); }
+@font-face { font-family: 'Outfit'; font-style: normal; font-weight: 400; font-display: swap; src: url('../../../assets/fonts/outfit-400.woff2') format('woff2'); }
+@font-face { font-family: 'Outfit'; font-style: normal; font-weight: 500; font-display: swap; src: url('../../../assets/fonts/outfit-500.woff2') format('woff2'); }
+@font-face { font-family: 'Outfit'; font-style: normal; font-weight: 600; font-display: swap; src: url('../../../assets/fonts/outfit-600.woff2') format('woff2'); }
+@font-face { font-family: 'Outfit'; font-style: normal; font-weight: 700; font-display: swap; src: url('../../../assets/fonts/outfit-700.woff2') format('woff2'); }
+@font-face { font-family: 'Outfit'; font-style: normal; font-weight: 800; font-display: swap; src: url('../../../assets/fonts/outfit-800.woff2') format('woff2'); }

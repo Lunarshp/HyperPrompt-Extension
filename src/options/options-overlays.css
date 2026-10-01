@@ -1,0 +1,374 @@
+/* ===== Modernized Global Toasts ===== */
+#global-toast {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  min-width: 320px;
+  max-width: 520px;
+  padding: 14px 24px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  z-index: 1000000;
+  pointer-events: none;
+  opacity: 0;
+  transition: transform 0.35s cubic-bezier(.34,1.56,.64,1), opacity 0.3s;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+#global-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+/* toast 三态膜化（HP 设计总则：大面积实心色禁用；底=暗玻璃，态色只走膜+描边+字） */
+#global-toast.toast-success {
+  background: rgba(40, 53, 75, 0.88);
+  color: #9be8d6;
+  border: 1px solid rgba(52, 166, 143, 0.50);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35), inset 0 0 24px rgba(50, 123, 104, 0.10);
+}
+#global-toast.toast-error {
+  background: rgba(40, 53, 75, 0.88);
+  color: #f4a7a7;
+  border: 1px solid rgba(239, 68, 68, 0.48);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35), inset 0 0 24px rgba(239, 68, 68, 0.08);
+}
+#global-toast.toast-info {
+  background: rgba(40, 53, 75, 0.88);
+  color: #b9c8dc;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+/* D14：toast 前置线性图标（结构见 toast-ui.js TOAST_ICON_SVG），随文字走 currentColor（白） */
+.toast-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+.toast-icon svg {
+  display: block;
+  width: 14px;
+  height: 14px;
+}
+.toast-msg {
+  min-width: 0;
+}
+
+/* ===== Dynamic Dialog Overlay Modals ===== */
+.rules-edit-overlay,
+.hist-detail-overlay,
+.history-preview-overlay,
+.hist-detail-fullimg {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(10, 16, 28, 0.45);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: modalFadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.rules-edit-dialog,
+.hist-detail-card {
+  width: 100%;
+  max-width: 540px;
+  /* 弹窗族与主容器同族 slate 玻璃（HP：旧 navy 底太暗未统一） */
+  background: rgba(30, 41, 59, 0.68);
+  backdrop-filter: blur(28px) saturate(150%);
+  -webkit-backdrop-filter: blur(28px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45), 
+              inset 0 1px 1px rgba(255, 255, 255, 0.07);
+  padding: 28px;
+  color: #cbd5e1;
+  animation: modalSlideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes modalSlideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.rules-edit-dialog h3,
+.hist-detail-header h3 {
+  font-family: 'Outfit', sans-serif;
+  margin: 0 0 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.rules-edit-dialog label {
+  display: block;
+  font-size: 13px;
+  color: #94a3b8;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.rules-edit-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.rules-edit-actions button {
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.rules-edit-actions .btn-cancel {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: #94a3b8;
+}
+
+.rules-edit-actions .btn-cancel:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.provider-delete-dialog-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.provider-delete-dialog-actions button {
+  min-width: 100px;
+  padding: 10px 24px;
+}
+
+.provider-delete-dialog-actions .btn-cancel {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: #94a3b8;
+}
+
+.provider-delete-dialog-actions .btn-cancel:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.rules-edit-actions .btn-save {
+  border: 1px solid rgba(52, 166, 143, 0.50);
+  background: linear-gradient(135deg, rgba(50, 123, 104, 0.26) 0%, rgba(20, 184, 166, 0.12) 100%);
+  color: #9be8d6;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(20, 184, 166, 0.10);
+}
+
+.rules-edit-actions .btn-save:hover {
+  background: linear-gradient(135deg, rgba(50, 123, 104, 0.38) 0%, rgba(20, 184, 166, 0.20) 100%);
+  border-color: rgba(52, 166, 143, 0.68);
+  color: #c1f5e8;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(20, 184, 166, 0.3);
+}
+
+/* ===== Model Picker Dialog（暗玻璃，复用 .rules-edit-overlay/.rules-edit-dialog 壳）===== */
+.model-picker-dialog {
+  max-width: 400px;
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: 80vh;
+}
+.model-picker-header {
+  padding: 16px 16px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+/* 搜索/自定义输入：底色/描边/聚焦沿用 .rules-edit-dialog input，仅覆盖尺寸与 flex（双类 > 单类元素选择器）*/
+.model-picker-header .model-picker-search {
+  flex: 1;
+  width: auto;
+  padding: 8px 12px;
+  font-size: 14px;
+}
+.model-picker-custom-area .model-picker-custom {
+  flex: 1;
+  width: auto;
+  padding: 7px 10px;
+  font-size: 13px;
+}
+.model-picker-refresh {
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: #cbd5e1;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.model-picker-refresh:hover { background: rgba(255, 255, 255, 0.08); color: #f1f5f9; }
+.model-picker-refresh:disabled { opacity: 0.6; cursor: not-allowed; }
+.model-picker-search-icon { color: #8b9bb0; display: inline-flex; align-items: center; }
+.model-picker-close {
+  padding: 0 4px;
+  background: none;
+  border: none;
+  font-size: 22px;
+  line-height: 1;
+  color: #8b9bb0;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.model-picker-close:hover { color: #f1f5f9; }
+.model-picker-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 0;
+  max-height: 400px;
+}
+.model-picker-footer {
+  padding: 12px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.02);
+}
+.model-picker-count { font-size: 13px; color: #94a3b8; }
+.model-picker-footer .rules-edit-actions button { padding: 7px 16px; font-size: 13px; }
+.model-picker-custom-area {
+  padding: 0 16px 12px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.model-picker-custom-add {
+  padding: 7px 12px;
+  border: 1px solid rgba(50, 123, 104, 0.5);
+  background: rgba(50, 123, 104, 0.12);
+  color: #34d399;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.model-picker-custom-add:hover { background: rgba(50, 123, 104, 0.22); color: #ffffff; }
+/* 分组标题（翡翠/青系，弃靛蓝）*/
+.model-picker-group {
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.model-picker-group.remote { color: #34d399; background: rgba(50, 123, 104, 0.12); }
+.model-picker-group.local { color: #5eead4; background: rgba(20, 184, 166, 0.10); }
+.model-picker-group.preset { color: #94a3b8; background: rgba(255, 255, 255, 0.03); }
+.model-picker-group .mp-group-count { font-weight: 400; color: #8b9bb0; }
+.model-picker-sep { height: 1px; background: rgba(255, 255, 255, 0.08); margin: 8px 0; }
+/* 列表行 */
+.model-picker-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.model-picker-row:hover { background: rgba(255, 255, 255, 0.06); }
+.model-picker-row.added { opacity: 0.45; cursor: default; }
+.model-picker-row.added:hover { background: transparent; }
+/* 复选框：压过 .rules-edit-dialog input 的整框主题（否则被撑成全宽输入框）。
+   自绘描边方块 + 选中绿膜勾（同 .rule-var-sel 范式；accent-color 仍是原生白件，禁回退） */
+.model-picker-row .model-picker-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 17px;
+  height: 17px;
+  padding: 0;
+  margin: 0;
+  border-radius: 5px;
+  border: 1.5px solid rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: none;
+  cursor: pointer;
+  display: inline-grid;
+  place-content: center;
+  transition: border-color 0.2s, background 0.2s;
+  flex-shrink: 0;
+}
+.model-picker-row .model-picker-checkbox:hover { border-color: rgba(52, 166, 143, 0.55); }
+.model-picker-row .model-picker-checkbox::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+  background: #45c9ab;
+  transform: scale(0);
+  transition: transform 0.15s ease;
+}
+.model-picker-row .model-picker-checkbox:checked {
+  border-color: rgba(52, 166, 143, 0.65);
+  background: rgba(50, 123, 104, 0.18);
+}
+.model-picker-row .model-picker-checkbox:checked::before { transform: scale(1); }
+.model-picker-row .model-picker-checkbox:disabled { opacity: 0.4; cursor: not-allowed; }
+.model-picker-name { flex: 1; font-size: 14px; color: #e2e8f0; }
+.model-picker-badges { display: flex; gap: 4px; flex-shrink: 0; }
+.model-picker-badge {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+.model-picker-badge.local { background: rgba(20, 184, 166, 0.16); color: #5eead4; }
+.model-picker-badge.remote { background: rgba(50, 123, 104, 0.18); color: #34d399; }
+.model-picker-badge.free { background: rgba(16, 185, 129, 0.16); color: #6ee7b7; }
+.model-picker-badge.new { background: rgba(56, 189, 248, 0.16); color: #7dd3fc; }
+.model-picker-badge.size { background: rgba(255, 255, 255, 0.06); color: #94a3b8; }
+.model-picker-badge.added { background: rgba(255, 255, 255, 0.06); color: #94a3b8; }
+.model-picker-empty { padding: 20px; text-align: center; color: #8b9bb0; font-size: 13px; }
+.model-picker-loading {
+  padding: 8px 16px;
+  font-size: 12px;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ===== 键盘焦点环（B10：sidebar / provider tab 可达）===== */
+.sidebar-item:focus-visible,
+.provider-tab:focus-visible {
+  outline: 2px solid #14b8a6;
+  outline-offset: -2px;
+}

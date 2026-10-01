@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HyperPrompt</title>
+  <link rel="stylesheet" href="../shared/styles/fonts.css">
+  <link rel="stylesheet" href="../shared/styles/page-reset.css">
+  <link rel="stylesheet" href="popup-base.css">
+  <link rel="stylesheet" href="popup-history-refset.css">
+  <link rel="stylesheet" href="../shared/styles/history-refset-cards.css">
+  <link rel="stylesheet" href="../shared/styles/history-pager.css">
+  <link rel="stylesheet" href="popup-history.css">
+  <link rel="stylesheet" href="popup-detail.css">
+  <link rel="stylesheet" href="popup-about.css">
+  <link rel="stylesheet" href="popup-site-controls.css">
+</head>
+<body>
+  <div class="popup-shell">
+    <div class="popup-header">
+      <div class="header-title-container">
+        <div class="header-logo-container">
+          <svg class="header-logo-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 3Q12 12 21 12Q12 12 12 21Q12 12 3 12Q12 12 12 3Z" fill="url(#sparkle-grad)"/>
+            <path d="M19 15Q19 18 22 18Q19 18 19 21Q19 18 16 18Q19 18 19 15Z" fill="url(#sparkle-grad)" opacity="0.85"/>
+            <defs>
+              <linearGradient id="sparkle-grad" x1="3" y1="3" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#34d399"/>
+                <stop offset="100%" stop-color="#059669"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <h1>HyperPrompt</h1>
+      </div>
+    </div>
+
+    <div class="popup-content">
+      <div id="status" class="status"></div>
+
+      <div id="popup-guides"></div>
+
+      <div class="recent-history" id="recent-history">
+        <h3 data-i18n="popup.history">历史记录</h3>
+        <div class="history-list" id="history-list">
+          <div style="color:#64748b;font-size:12px;text-align:center;padding:20px 0;" data-i18n="popup.empty">暂无记录</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 本站悬浮入口控制（当前活动标签站点；读不到 url 或非 http(s) 时保持隐藏） -->
+    <div class="site-ctrl" id="site-ctrl" hidden>
+      <svg class="site-ctrl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M3 12h2M19 12h2M12 3v2M12 19v2"/></svg>
+      <span class="site-ctrl-label" data-i18n="popup.hoverSiteLabel">本站悬浮入口</span>
+      <span class="site-ctrl-host" id="site-ctrl-host"></span>
+      <span class="site-ctrl-feedback" id="site-ctrl-feedback"></span>
+      <button class="site-ctrl-reset" id="site-ctrl-reset" type="button">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+        <span data-i18n="popup.hoverPosReset">复位位置</span>
+      </button>
+      <label class="toggle-switch">
+        <input type="checkbox" id="site-ctrl-toggle">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+
+    <div class="popup-footer">
+      <button class="footer-btn" id="open-options-btn">
+        <svg class="footer-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+        <span data-i18n="common.settings">设置</span>
+      </button>
+      <button class="footer-btn" id="about-btn">
+        <svg class="footer-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+        <span data-i18n="popup.about">关于</span>
+      </button>
+    </div>
+  </div>
+
+  <script src="../shared/asset-shell.js"></script>
+  <script src="../shared/history-view.js"></script>
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

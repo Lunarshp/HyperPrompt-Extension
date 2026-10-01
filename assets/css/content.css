@@ -1,0 +1,344 @@
+.assistant-container-common {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 44px;
+    height: 44px;
+    min-width: 0;
+    min-height: 0;
+    box-sizing: border-box;
+    padding: 4px;
+    background: rgba(19, 28, 44, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 99px !important;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45), 
+                inset 0 1px 1px rgba(255, 255, 255, 0.08) !important;
+    z-index: 9999999;
+    opacity: 0.98;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    user-select: none;
+    overflow: hidden;
+    pointer-events: all;
+    cursor: default;
+    transition: width 0.3s cubic-bezier(0.25, 1, 0.25, 1),
+                height 0.3s cubic-bezier(0.25, 1, 0.25, 1),
+                background 0.3s ease,
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
+}
+
+.assistant-container-common * {
+    box-sizing: border-box;
+}
+
+.assistant-container-common.collapsed {
+    width: 44px;
+    height: 44px;
+    background: rgba(19, 28, 44, 0.5) !important;
+    border-color: rgba(255, 255, 255, 0.06) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+}
+
+.assistant-container-common.expanded {
+    width: 326px;
+    min-width: 0;
+    height: 44px;
+    border-radius: 99px !important;
+    overflow: visible !important;
+}
+
+.assistant-indicator {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: transparent !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.65) !important;
+    font-weight: 800;
+    font-size: 13px;
+    font-family: 'Outfit', sans-serif;
+    pointer-events: auto;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: none !important;
+    user-select: none;
+}
+
+.assistant-indicator:hover .assistant-btn-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+.assistant-indicator:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+    transform: translateY(-1.5px);
+}
+
+.assistant-indicator:active {
+    transform: scale(0.92);
+}
+
+.assistant-content {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    width: 0;
+    height: 100%;
+    opacity: 0;
+    overflow: hidden;
+    transition: opacity 0.2s ease;
+    padding-left: 2px;
+}
+
+.assistant-container-common.expanded .assistant-content {
+    width: auto;
+    opacity: 1;
+    overflow: visible !important;
+}
+
+.assistant-btn-icon {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.65);
+    padding: 0;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+}
+
+.assistant-btn-icon:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    transform: translateY(-1.5px);
+}
+
+.assistant-btn-icon:active {
+    transform: scale(0.92);
+}
+
+.assistant-btn-icon-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.assistant-btn-icon-inner svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.assistant-btn-tooltip {
+    position: absolute;
+    top: calc(100% + 10px); /* HP 定：小签在按钮下方弹出 */
+    left: 50%;
+    transform: translateX(-50%) translateY(-4px);
+    /* 轻毛玻璃小签（HP 定：别做成深实块）——中性暗灰高透 + blur */
+    color: #f1f5f9;
+    background: rgba(22, 24, 28, 0.82);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 8px;
+    padding: 5px 10px;
+    font-size: 11px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    z-index: 10;
+}
+
+.assistant-btn-icon:hover .assistant-btn-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* showActionModal 共享外壳宽度（原内联 min(640px, 94vw) 移到 class，保持各弹窗现状） */
+#hyperprompt-modal .hp-modal-shell {
+    width: min(640px, calc(100vw - 48px));
+}
+
+#hyperprompt-modal button:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+}
+
+#hyperprompt-modal button:active {
+    transform: scale(0.97);
+}
+
+#hyperprompt-modal textarea:focus {
+    outline: none;
+    border-color: rgba(20, 184, 166, 0.55);
+    box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.16);
+}
+
+#hyperprompt-modal input[type="file"]:focus {
+    outline: none;
+}
+
+/* 滚动期间禁用 CSS 过渡，消除悬浮球/工具栏与页面的运动脱节与漂移 */
+.assistant-container-common.no-transition,
+#hp-img-hover-btn.no-transition,
+#hp-img-hover-menu.no-transition {
+    transition: none !important;
+    -webkit-transition: none !important;
+}
+
+/* 长耗时等待态（提示词优化 / 视频多帧分析，最长 180s）共享 spinner + 已用时计时器，主题色 #14b8a6。
+   prompt-guide.js / video-enhance.js 共用；无内联 <style> 的 classic 覆盖层统一走这里。 */
+.hp-spinner {
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    border: 2px solid rgba(20, 184, 166, 0.25);
+    border-top-color: #14b8a6;
+    border-radius: 50%;
+    animation: hp-spin 0.8s linear infinite;
+    vertical-align: -2px;
+    margin-right: 6px;
+}
+
+@keyframes hp-spin {
+    to { transform: rotate(360deg); }
+}
+
+.hp-elapsed {
+    color: #94a3b8;
+    font-size: 12px;
+    margin-left: 4px;
+}
+
+/* 历史 / 参考集删除两击确认态：暗玻璃红边警示，首点后 2.5s 无操作自动还原。
+   !important 覆盖各弹窗自带 .hp-hist-btn / .hp-hist-detail-btn 基础样式（对齐本组件既有的状态覆盖惯例）。 */
+.hp-confirm-del {
+    background: rgba(239, 68, 68, 0.16) !important;
+    border: 1px solid rgba(239, 68, 68, 0.5) !important;
+    color: #fca5a5 !important;
+    font-size: 10.5px !important;
+    font-weight: 600 !important;
+    padding: 4px 8px !important;
+    white-space: nowrap !important;
+}
+
+
+/* ── 原生表单件终扫（插件 UI 内，2026-07-05）── */
+#hyperprompt-modal input[type="number"]::-webkit-outer-spin-button,
+#hyperprompt-modal input[type="number"]::-webkit-inner-spin-button,
+#hp-video-frame-picker input[type="number"]::-webkit-outer-spin-button,
+#hp-video-frame-picker input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+#hyperprompt-modal input[type="number"],
+#hp-video-frame-picker input[type="number"] { appearance: textfield; -moz-appearance: textfield; }
+#hyperprompt-modal input:-webkit-autofill,
+#hp-video-frame-picker input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px #2c3a52 inset !important;
+    -webkit-text-fill-color: #f1f5f9 !important;
+}
+/* 批量选图勾选框：裸原生白方框 → 自绘描边方块 + 选中绿膜勾 */
+.hp-batch-cand {
+    appearance: none;
+    -webkit-appearance: none;
+    border-radius: 4px;
+    border: 1.5px solid rgba(255, 255, 255, 0.30);
+    background: rgba(19, 28, 44, 0.55);
+    cursor: pointer;
+    display: inline-grid;
+    place-content: center;
+    transition: border-color 0.2s, background 0.2s;
+}
+.hp-batch-cand::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+    background: #45c9ab;
+    transform: scale(0);
+    transition: transform 0.15s ease;
+}
+.hp-batch-cand:checked {
+    border-color: rgba(69, 201, 171, 0.9);
+    background: rgba(50, 123, 104, 0.45);
+}
+.hp-batch-cand:checked::before { transform: scale(1); }
+
+/* textarea 原生 resize 手柄主题化（插件 UI 内） */
+#hyperprompt-modal textarea::-webkit-resizer,
+#hp-video-frame-picker textarea::-webkit-resizer {
+    background: linear-gradient(135deg,
+        transparent 0 55%, rgba(69, 201, 171, 0.45) 55% 65%,
+        transparent 65% 75%, rgba(69, 201, 171, 0.45) 75% 85%,
+        transparent 85%);
+    border-radius: 0 0 8px 0;
+}
+
+/* 插件 UI 内选中文字高亮：品牌绿膜 */
+#hyperprompt-modal ::selection,
+#hp-copy-toast ::selection,
+#hp-video-frame-picker ::selection,
+.hp-ctx-menu ::selection {
+    background: rgba(20, 184, 166, 0.28);
+    color: #f1f5f9;
+}
+
+/* 滚动条角件透明（插件 UI 内） */
+#hyperprompt-modal ::-webkit-scrollbar-corner,
+#hp-video-frame-picker ::-webkit-scrollbar-corner { background: transparent; }
+
+/* 滚动条主题化（插件 UI 内全族）：系统白轨白钮=原生件（HP 2026-07-05「白板很 crazy」实锤），
+   统一窄暗条；宿主页滚动条不受影响 —— 全部圈插件根 */
+#hyperprompt-modal ::-webkit-scrollbar,
+#hp-video-frame-picker ::-webkit-scrollbar,
+.hp-ctx-menu ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+#hyperprompt-modal ::-webkit-scrollbar-track,
+#hp-video-frame-picker ::-webkit-scrollbar-track,
+.hp-ctx-menu ::-webkit-scrollbar-track { background: transparent; }
+#hyperprompt-modal ::-webkit-scrollbar-thumb,
+#hp-video-frame-picker ::-webkit-scrollbar-thumb,
+.hp-ctx-menu ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.14);
+    border-radius: 3px;
+}
+#hyperprompt-modal ::-webkit-scrollbar-thumb:hover,
+#hp-video-frame-picker ::-webkit-scrollbar-thumb:hover,
+.hp-ctx-menu ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.22); }
+
+/* 聚焦光环兜底（插件 UI 内）：未定义专属 focus 样式的控件不落 UA 黑白双环。
+   宿主页元素不受影响 —— 全部圈在插件根节点内。 */
+#hyperprompt-modal button:focus-visible,
+#hp-video-frame-picker button:focus-visible,
+#hp-copy-toast button:focus-visible,
+#hyperprompt-container button:focus-visible,
+#hp-img-hover-btn button:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.2), 0 0 12px 3px rgba(20, 184, 166, 0.18);
+}
+#hp-video-frame-picker :is(input, textarea, select):focus-visible {
+    outline: none;
+    border-color: rgba(20, 184, 166, 0.55) !important;
+    box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.16);
+}

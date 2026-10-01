@@ -1,0 +1,31 @@
+/* reference_set 详情成员网格（三端共享 history-view.js 渲染；样式对齐 options 定稿，窄弹窗收紧） */
+.hist-refset-section {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 12px 14px;
+  background: rgba(44, 58, 82, 0.25);
+  overflow-y: auto;
+  max-height: 240px;
+}
+
+.hist-refset-meta {
+  font-size: 12px;
+  color: #8b9bb0;
+  margin-bottom: 10px;
+  letter-spacing: 0.02em;
+}
+
+.hist-refset-meta a {
+  color: #7fcdb8;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.hist-refset-meta a:hover {
+  color: #34d399;
+}
+
+.hist-refset-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+  gap: 8px;
+}

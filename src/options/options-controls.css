@@ -1,0 +1,271 @@
+/* 规则变量槽行（编辑器内，覆盖 .rules-edit-dialog input 的 width:100%） */
+.rule-var-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.rule-var-row .rule-var-key {
+  flex-shrink: 0;
+  font-family: 'Fira Code', 'Consolas', monospace;
+  font-size: 12px;
+  color: #52a68f;
+  background: rgba(82, 166, 143, 0.1);
+  border: 1px solid rgba(82, 166, 143, 0.25);
+  border-radius: 6px;
+  padding: 5px 9px;
+  white-space: nowrap;
+}
+
+.rule-var-row input[type="text"] {
+  width: auto !important;
+  flex: 1;
+  margin: 0 !important;
+  padding: 7px 10px !important;
+  font-size: 12.5px !important;
+}
+
+.rule-var-row .rule-var-label { max-width: 120px; }
+
+.rule-var-sel {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  font-size: 12px;
+  color: #94a3b8;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.rule-var-sel input { width: auto !important; margin: 0 !important; }
+
+/* 变量槽 opt-in：未启用行灰化（输入禁用），{key} 胶囊在启用勾选框旁可点 */
+.rule-var-row.rule-var-off .rule-var-key,
+.rule-var-row.rule-var-off input[type="text"],
+.rule-var-row.rule-var-off .rule-var-sel:last-child { opacity: 0.45; }
+
+.rule-var-row .rule-var-sel .rule-var-key { cursor: pointer; }
+
+/* ===== Buttons with tactile response ===== */
+.button-group {
+  display: flex;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, rgba(50, 123, 104, 0.24) 0%, rgba(20, 184, 166, 0.10) 100%);
+  border: 1px solid rgba(52, 166, 143, 0.42);
+  color: #9be8d6;
+  flex: 1;
+  box-shadow: 0 4px 18px rgba(50, 123, 104, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, rgba(50, 123, 104, 0.36) 0%, rgba(20, 184, 166, 0.18) 100%);
+  border-color: rgba(52, 166, 143, 0.62);
+  color: #c1f5e8;
+  transform: translateY(-1.5px);
+  box-shadow: 0 8px 26px rgba(50, 123, 104, 0.20), inset 0 1px 0 rgba(255, 255, 255, 0.09);
+}
+
+.btn-primary:active {
+  transform: scale(0.97);
+}
+
+.btn-success {
+  background: linear-gradient(135deg, rgba(50, 123, 104, 0.20) 0%, rgba(38, 95, 80, 0.14) 100%);
+  border: 1px solid rgba(52, 166, 143, 0.36);
+  color: #93dfcc;
+  box-shadow: 0 4px 16px rgba(50, 123, 104, 0.12);
+}
+
+.btn-success:hover {
+  background: linear-gradient(135deg, rgba(50, 123, 104, 0.32) 0%, rgba(38, 95, 80, 0.22) 100%);
+  border-color: rgba(52, 166, 143, 0.55);
+  color: #baf0e1;
+  transform: translateY(-1.5px);
+  box-shadow: 0 6px 22px rgba(50, 123, 104, 0.18);
+}
+
+.btn-success:active {
+  transform: scale(0.97);
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.16) 0%, rgba(220, 38, 38, 0.10) 100%);
+  border: 1px solid rgba(239, 68, 68, 0.42);
+  color: #f4a7a7;
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.10);
+}
+
+.btn-danger:hover {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.28) 0%, rgba(220, 38, 38, 0.18) 100%);
+  border-color: rgba(239, 68, 68, 0.60);
+  color: #ffc9c9;
+  transform: translateY(-1.5px);
+  box-shadow: 0 6px 22px rgba(239, 68, 68, 0.16);
+}
+
+.btn-danger:active {
+  transform: scale(0.97);
+}
+
+.btn-icon-svg {
+  width: 16px;
+  height: 16px;
+  stroke-width: 2.2px;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button:hover .btn-icon-svg {
+  transform: scale(1.12) rotate(6deg);
+}
+
+/* ===== iOS Toggle Switches ===== */
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.setting-row:last-child {
+  border-bottom: none;
+}
+
+.setting-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14.5px;
+  color: #e2e8f0;
+  font-weight: 500;
+}
+
+.setting-label .tip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 10px;
+  color: #94a3b8;
+  cursor: help;
+  transition: all 0.2s;
+}
+
+/* tooltip 已由全局单例接管（src/shared/tooltip-ui.js），.tip 只保留圆圈观感 */
+
+/* 字段下方提示小签（如 max_tokens 推荐值说明）；辅助灰下限 #8b9bb0 保证提透玻璃上可读 */
+.form-hint {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #8b9bb0;
+}
+
+.setting-label .tip:hover {
+  color: #34d399;
+  border-color: #34d399;
+  background: rgba(52, 211, 153, 0.1);
+}
+
+.toggle-switch {
+  position: relative;
+  width: 48px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 26px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  left: 3px;
+  bottom: 3px;
+  background: #cbd5e1;
+  border-radius: 50%;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.35);
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background: rgba(50, 123, 104, 0.30);
+  border-color: rgba(52, 166, 143, 0.55);
+  box-shadow: inset 0 0 10px rgba(20, 184, 166, 0.12);
+}
+
+.toggle-switch input:checked + .toggle-slider::before {
+  transform: translateX(22px);
+  background: #7ee8d2;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3), 0 0 8px rgba(20, 184, 166, 0.35);
+}
+
+/* 设置组 → 浅玻璃卡片（2026-07-15 HP 拍板统一浅色族，同 .api-section；accent 品牌绿） */
+.settings-group {
+  margin-bottom: 26px;
+  padding: 22px 24px;
+  background: rgba(44, 58, 82, 0.30);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.settings-group:hover {
+  border-color: rgba(82, 166, 143, 0.26);
+  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.28), 0 0 24px rgba(50, 123, 104, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.settings-group h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #f1f5f9;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.rules-restore-btn { background:transparent; border:1px solid rgba(148,163,184,.35); color:#cbd5e1; padding:8px 12px; font-size:12.5px; }

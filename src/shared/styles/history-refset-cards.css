@@ -1,0 +1,81 @@
+.hist-refset-card {
+  background: rgba(44, 58, 82, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.hist-refset-card:hover {
+  border-color: rgba(50, 123, 104, 0.4);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.hist-refset-thumb {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: rgba(44, 58, 82, 0.45);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hist-refset-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.hist-refset-thumb:hover img {
+  transform: scale(1.06);
+}
+
+.hist-refset-thumb-placeholder {
+  font-size: 11px;
+  color: #334155;
+}
+
+.hist-refset-prompt {
+  font-size: 11px;
+  color: #94a3b8;
+  line-height: 1.5;
+  padding: 8px 8px 4px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  flex: 1;
+}
+
+.hist-refset-copy-btn {
+  margin: 4px 8px 8px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.03);
+  color: #94a3b8;
+  font-size: 11px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s;
+  align-self: flex-start;
+}
+
+.hist-refset-copy-btn:hover {
+  background: rgba(52, 211, 153, 0.08);
+  border-color: rgba(52, 211, 153, 0.3);
+  color: #34d399;
+}
+
+.hist-refset-copy-btn.copied {
+  color: #34d399;
+  border-color: rgba(52, 211, 153, 0.3);
+}

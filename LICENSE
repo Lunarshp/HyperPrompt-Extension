@@ -1,0 +1,26 @@
+HyperPrompt Source-Available License
+Copyright (c) 2026 HP. All rights reserved.
+
+Permission is granted to view and study the source code and to install and use
+an unmodified copy of HyperPrompt for non-commercial purposes, without charge.
+Copies necessary for that private installation and use are permitted.
+
+Modification of the software, commercial use, and redistribution of software
+or source code, modified or unmodified, require prior written authorization
+from the copyright holder. No sublicensing rights are granted. Public access
+to this repository does not grant those rights.
+
+Changing settings, configuring model providers, and editing prompt rules via
+the application's supported interface are ordinary use, not modification of
+the software. This license claims no ownership of user inputs or model outputs.
+Third-party components retain their own licenses.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND. TO THE EXTENT
+PERMITTED BY LAW, THE COPYRIGHT HOLDER IS NOT LIABLE FOR CLAIMS OR DAMAGES
+ARISING FROM USE OF THE SOFTWARE.
+
+本项目采用受限源码公开授权。允许查看、学习和非商业使用未经修改的原版。
+修改软件、商用、再分发软件或源码，须事先取得 HP 的书面授权。
+界面内配置服务商、编辑设置和自定义规则属于正常使用。
+本许可不主张用户输入或模型输出的所有权；第三方组件遵循各自许可。
+联系版权人：support@hyperprompt.dev

@@ -1,0 +1,363 @@
+:host {
+  all: initial;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: var(--hp-host-z, 2147483647) !important;
+  display: block !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  pointer-events: none !important;
+}
+
+.hp-surface-overlay {
+  position: fixed;
+  inset:0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 40px;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  opacity: 0;
+  pointer-events: auto;
+  transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hp-surface-overlay-glass {
+  position:absolute;
+  inset:0;
+  z-index:0;
+  background:rgba(10,16,28,.34);
+  backdrop-filter:blur(16px) saturate(120%);
+  -webkit-backdrop-filter:blur(16px) saturate(120%);
+  pointer-events:none;
+}
+
+/* Page-context fallback images sit above the secure iframe, so mirror the
+   exact main Batch selection affordance above those pixels as a visual-only
+   control. The real trusted checkbox remains the interactive owner below. */
+.hp-surface-proxy-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: 4px;
+  border: 1.5px solid rgba(255, 255, 255, 0.30);
+  background: rgba(19, 28, 44, 0.55);
+  cursor: pointer;
+  display: inline-grid;
+  place-content: center;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.hp-surface-proxy-checkbox::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+  background: #45c9ab;
+  transform: scale(0);
+  transition: transform 0.15s ease;
+}
+
+.hp-surface-proxy-checkbox:checked {
+  border-color: rgba(69, 201, 171, 0.9);
+  background: rgba(50, 123, 104, 0.45);
+}
+
+.hp-surface-proxy-checkbox:checked::before { transform: scale(1); }
+
+/* 全屏遮罩六面统一：prompt/batch/video/reverse 不再有独立浅灰档，
+   全部回落基础 .hp-surface-overlay-glass 暗蓝档 rgba(10,16,28,.34)+blur(16px)
+   （2026-07-16 HP 拍板，对齐 History/Settings；旧浅灰 action 档已退役勿回加）。
+   正常开窗时该玻璃由 host 侧占位壳全程持有（externalMask），此处的值服务于
+   externalMask 为 false 时 overlay 自绘玻璃的场景，两处必须一致。 */
+.hp-surface-overlay[data-page="prompt"],
+.hp-surface-overlay[data-page="batch"],
+.hp-surface-overlay[data-page="video"] {
+  padding: 0;
+}
+
+/* Prompt Guide and Video appear immediately in main. Hover Reverse is also
+   inserted directly over the image. Do not inherit Settings/History motion. */
+.hp-surface-overlay.ready[data-page="prompt"],
+.hp-surface-overlay.ready[data-page="video"],
+.hp-surface-overlay.ready[data-page="reverse"] {
+  opacity: 1;
+  transition: none;
+}
+
+.hp-surface-overlay.ready[data-page="prompt"] > .hp-surface-frame,
+.hp-surface-overlay.ready[data-page="video"] > .hp-surface-frame,
+.hp-surface-overlay.ready[data-page="reverse"] > .hp-surface-frame,
+.hp-surface-overlay.ready[data-page="prompt"] > .hp-surface-glass,
+.hp-surface-overlay.ready[data-page="video"] > .hp-surface-glass {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+/* Batch is a main showActionModal consumer: 300ms backdrop fade plus the
+   card's 300ms scale(.95)/translateY(10px) entrance. */
+.hp-surface-overlay.ready[data-page="batch"] {
+  animation: hp-batch-modal-fade-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hp-surface-overlay.ready[data-page="batch"] > .hp-surface-frame,
+.hp-surface-overlay.ready[data-page="batch"] > .hp-surface-glass {
+  animation: hp-batch-modal-scale-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes hp-batch-modal-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes hp-batch-modal-scale-in {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.hp-surface-frame {
+  position: relative;
+  z-index: 1;
+  display: block;
+  box-sizing: border-box;
+  width: min(760px, 94vw);
+  height: min(86vh, 760px);
+  margin: 0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.07);
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  overflow: hidden;
+  opacity:0;
+  transform: translateY(8px) scale(0.985);
+  transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1), transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.hp-surface-glass {
+  position:absolute;
+  inset: 0;
+  margin:auto;
+  pointer-events:none;
+  z-index:0;
+  opacity: 0;
+  transform: translateY(8px) scale(0.985);
+  transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1), transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.hp-surface-overlay[data-page="prompt"] .hp-surface-frame {
+  width: calc(min(760px, 94vw) + var(--hp-main-card-extra, 0px));
+  height: calc(90vh + var(--hp-main-card-extra, 0px));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.07);
+}
+
+.hp-surface-overlay[data-page="prompt"] > .hp-surface-glass,
+.hp-surface-overlay[data-page="video"] > .hp-surface-glass {
+  width: calc(min(760px, 94vw) + var(--hp-main-card-extra, 0px));
+  height: calc(90vh + var(--hp-main-card-extra, 0px));
+}
+
+.hp-surface-overlay[data-page="history"] .hp-surface-frame {
+  width: min(760px, 94vw);
+  height: min(86vh, 760px);
+}
+
+.hp-surface-overlay[data-page="settings"] .hp-surface-frame,
+.hp-surface-overlay[data-page="history"] .hp-surface-frame {
+  box-sizing: var(--hp-main-frame-box, content-box);
+}
+
+.hp-surface-overlay[data-page="batch"] .hp-surface-frame {
+  width: calc(min(640px, calc(100vw - 48px)) + var(--hp-main-card-extra, 0px));
+  height: calc(90vh + var(--hp-main-card-extra, 0px));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.07);
+}
+
+.hp-surface-overlay[data-page="batch"] > .hp-surface-glass {
+  width: calc(min(640px, calc(100vw - 48px)) + var(--hp-main-card-extra, 0px));
+  height: calc(90vh + var(--hp-main-card-extra, 0px));
+}
+
+.hp-surface-overlay[data-page="prompt"] > .hp-surface-glass,
+.hp-surface-overlay[data-page="batch"] > .hp-surface-glass,
+.hp-surface-overlay[data-page="video"] > .hp-surface-glass {
+  border-radius: 18px;
+  background: rgba(30, 41, 59, 0.68);
+  /* 卡体不再自带第二层 blur：全屏遮罩玻璃（暗蓝档 blur16）已完成全部背景模糊，
+     卡体只保留 68% 深色膜。此前卡体 blur(28px) 与遮罩 blur 双合成层叠加，等效模糊过重（HP 真机反馈过糊），
+     且第二块全卡尺寸 backdrop-filter 合成层每帧多付 8-24ms GPU 成本（点击出窗卡顿/反推流式期间掉帧的共同根因）。
+     若 HP 目测卡体偏透，补偿走 background alpha，不回加 blur。 */
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.hp-surface-overlay[data-page="video"] .hp-surface-frame {
+  width: calc(min(760px, 94vw) + var(--hp-main-card-extra, 0px));
+  height: calc(90vh + var(--hp-main-card-extra, 0px));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.07);
+}
+
+.hp-surface-overlay[data-page="reverse"] {
+  padding: 0;
+  /* 遮罩同 prompt/batch/video：回落基础暗蓝档，无独立覆盖 */
+}
+
+.hp-surface-overlay[data-page="reverse"] .hp-surface-frame {
+  position: fixed;
+  width: min(460px, calc(100vw - 24px));
+  height: min(640px, calc(100vh - 24px));
+  border-color: rgba(52, 166, 143, 0.35);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.48), 0 0 0 1px rgba(52, 166, 143, 0.08);
+}
+
+.hp-surface-overlay[data-page="translation"] {
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 24px;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  pointer-events: none;
+}
+
+.hp-surface-overlay[data-page="translation"] > .hp-surface-overlay-glass,
+.hp-surface-overlay[data-page="reverse"][data-mode="anchored"] > .hp-surface-overlay-glass {
+  display: none;
+}
+
+.hp-surface-overlay[data-page="translation"] .hp-surface-frame {
+  width: calc(min(380px, calc(100vw - 48px)) + var(--hp-main-toast-extra, 0px));
+  height: min(180px, calc(100vh - 48px));
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 14px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.30), inset 0 1px 1px rgba(255, 255, 255, 0.08);
+  pointer-events: auto;
+  transform: translateX(120%);
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hp-surface-overlay[data-page="translation"] > .hp-surface-glass {
+  inset: 24px 24px auto auto;
+  width: calc(min(380px, calc(100vw - 48px)) + var(--hp-main-toast-extra, 0px));
+  height: min(180px, calc(100vh - 48px));
+  margin: 0;
+  border-radius: 14px;
+  background: rgba(40, 52, 48, 0.45);
+  backdrop-filter: blur(24px) saturate(140%);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  transform: translateX(120%);
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hp-surface-overlay[data-page="translation"].toast-visible > .hp-surface-frame,
+.hp-surface-overlay[data-page="translation"].toast-visible > .hp-surface-glass {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.hp-surface-overlay.ready { opacity: 1; }
+.hp-surface-overlay.ready:not([data-page="translation"]) > .hp-surface-frame,
+.hp-surface-overlay.ready:not([data-page="translation"]) > .hp-surface-glass {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hp-surface-overlay,
+  .hp-surface-frame,
+  .hp-surface-glass { transition: none; animation: none !important; }
+}
+
+/* Chrome Split View（以及侧栏/DevTools 等让标签页不再铺满窗口的布局）会把网页画进一个带圆角的
+   中间 render pass。Viz 对这类非根 pass 只在子 iframe 的 damage 矩形里局部重画，且不像根 pass
+   那样把 damage 扩到会移动像素的 backdrop-filter（ExpandDamageForPixelMovingFilters 只走根 pass）。
+   透明扩展 iframe 里流式文字/按钮过渡的每次重绘，都会让下面这块玻璃在局部 scissor 里重新采样，
+   留下和重绘矩形一样大的方格暗影（2026-09-11 HP 真机）。窗口不铺满时，让每块压在活 iframe 下面的
+   玻璃自己每帧整块 damage：compositor 级 filter 微动画，肉眼不可见，iframe 保持透明、不动任何过渡。
+   !important 只为压过上面 reduced-motion 的 animation:none——这不是动效，是合成器绕法。 */
+@keyframes hp-glass-keepalive {
+  from { filter: brightness(1); }
+  to { filter: brightness(1.001); }
+}
+
+.hp-surface-overlay[data-hp-viewport="narrow"] > .hp-surface-overlay-glass,
+.hp-surface-overlay[data-hp-viewport="narrow"][data-page="translation"] > .hp-surface-glass,
+.hp-surface-overlay[data-hp-viewport="narrow"] > .hp-surface-anchor-glass {
+  animation: hp-glass-keepalive 1s linear infinite alternate !important;
+}
+
+/* Anchored (image-overlay) presentation — glass background div inside shadow root */
+.hp-surface-anchor-glass {
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  /* HP approved light-transparent frosted glass (matches main overlay-image visual) */
+  background: linear-gradient(180deg, rgba(22, 24, 28, 0.18) 0%, rgba(22, 24, 28, 0.58) 100%);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(5px);
+  pointer-events: none;
+  z-index: 0;
+  /* 常态不做 transition：backdrop-filter 过渡会让毛玻璃在 ready 时渐显（反推闪烁归因）。
+     淡出所需 transition 移到 .closing 态——CSS transition 取 after-change 样式，写在 .closing 上即生效。 */
+  transition: none;
+}
+
+.hp-surface-anchor-glass.closing {
+  opacity: 0;
+  background: linear-gradient(180deg, rgba(22, 24, 28, 0.08) 0%, rgba(22, 24, 28, 0.18) 100%);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  transition: opacity 0.26s ease, background 0.26s ease, backdrop-filter 0.26s ease, -webkit-backdrop-filter 0.26s ease;
+}
+
+.hp-surface-overlay[data-page="reverse"][data-mode="anchored"] > .hp-surface-frame {
+  border: 0;
+  box-shadow: none;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.hp-surface-result-toast-frame {
+  display: block;
+  box-sizing: border-box;
+  width: calc(min(380px, calc(100vw - 48px)) + var(--hp-main-toast-extra, 0px));
+  height: 220px;
+  margin: 0;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 14px;
+  background: rgba(40, 52, 48, 0.45);
+  backdrop-filter: blur(24px) saturate(140%);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.30), inset 0 1px 1px rgba(255, 255, 255, 0.08);
+  opacity: 0;
+  transform: translateX(120%);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+}
+
+.hp-surface-result-toast-frame.hp-toast-entered {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.hp-surface-result-toast-frame.hp-toast-exiting,
+.hp-surface-overlay[data-page="translation"] > .hp-surface-frame.hp-toast-exiting,
+.hp-surface-overlay[data-page="translation"] > .hp-surface-glass.hp-toast-exiting {
+  opacity: 0;
+  transform: translateX(120%);
+}
+
+.hp-surface-frame.hp-anchor-primary-closing { opacity: 0; transition: opacity 0.26s ease; }

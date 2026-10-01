@@ -1,0 +1,538 @@
+/* ===== Rule Manager Tables ===== */
+.rules-manager {
+  background: rgba(44, 58, 82, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 24px;
+  color: #cbd5e1;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05);
+}
+
+.rules-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.rules-tab {
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+  color: #94a3b8;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  line-height: 1.4;
+  flex: 1;
+  min-width: 100px;
+}
+
+.rules-tab:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #cbd5e1;
+}
+
+.rules-tab.active {
+  background: linear-gradient(135deg, rgba(50, 123, 104, 0.28) 0%, rgba(20, 184, 166, 0.12) 100%);
+  color: #c1f5e8;
+  border-color: rgba(52, 166, 143, 0.55);
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(20, 184, 166, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.rules-tab .tab-main {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.rules-tab .tab-desc {
+  display: block;
+  font-size: 11px;
+  opacity: 0.7;
+  margin-top: 2px;
+}
+
+.rules-toolbar {
+  display: flex;
+  flex-wrap: wrap; /* 批C：第二行机制说明 + 匹配设置入口 */
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
+.rules-add-btn {
+  padding: 8px 16px;
+  border: 1px solid rgba(50, 123, 104, 0.45);
+  background: rgba(50, 123, 104, 0.12);
+  color: #52a68f;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
+
+.rules-add-btn:hover {
+  background: rgba(50, 123, 104, 0.26);
+  color: #c1f5e8;
+  border-color: rgba(52, 166, 143, 0.55);
+  box-shadow: 0 0 12px rgba(50, 123, 104, 0.18);
+}
+
+.rules-table-wrap {
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  background: rgba(44, 58, 82, 0.2);
+}
+
+.rules-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  table-layout: fixed;
+}
+
+.rules-table th {
+  padding: 12px 16px;
+  text-align: left;
+  color: #94a3b8;
+  font-weight: 600;
+  font-size: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.rules-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: #cbd5e1;
+  vertical-align: middle;
+}
+
+.rules-table tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* 自绘 radio：原生白圆在暗玻璃上扎眼（HP 圈过）。描边圆 + 选中绿膜内点 */
+.rules-radio {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+  display: inline-grid;
+  place-content: center;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.rules-radio:hover { border-color: rgba(52, 166, 143, 0.55); }
+.rules-radio::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #45c9ab;
+  box-shadow: 0 0 8px rgba(20, 184, 166, 0.45);
+  transform: scale(0);
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.rules-radio:checked {
+  border-color: rgba(52, 166, 143, 0.65);
+  background: rgba(50, 123, 104, 0.16);
+}
+.rules-radio:checked::before { transform: scale(1); }
+
+.rules-name {
+  font-weight: 600;
+  color: #f1f5f9;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rules-content {
+  color: #cbd5e1;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rules-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap; /* 操作位超宽时换行兜底，绝不让按钮被表格 overflow 裁掉 */
+}
+
+/* 操作列 4 按钮单行放下：收紧本列 padding（列宽 164 - 16 = 148 ≥ 4×30 + 3×6 = 138） */
+.rules-table th:last-child,
+.rules-table td:last-child {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.rules-manager .rules-actions button {
+  padding: 0 !important;
+  border-radius: 8px !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  color: #94a3b8 !important;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  min-width: 30px !important;
+  min-height: 30px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.rules-manager .rules-actions button:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(82, 166, 143, 0.4) !important;
+  color: #52a68f !important;
+  transform: translateY(-1px);
+}
+
+.rules-manager .rules-actions button.delete:hover {
+  background: rgba(239, 68, 68, 0.15) !important;
+  border-color: rgba(239, 68, 68, 0.3) !important;
+  color: #f87171 !important;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);
+}
+
+.rules-manager .rules-actions button svg {
+  width: 14px;
+  height: 14px;
+  stroke-width: 2.2px;
+  transition: transform 0.2s;
+}
+
+.rules-manager .rules-actions button:active {
+  transform: scale(0.92);
+}
+
+/* folder 分组组头（规则页折叠，2026-07-04） */
+.rules-group-header td {
+  padding: 9px 16px;
+  background: rgba(44, 58, 82, 0.45);
+  color: #94a3b8;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+}
+
+.rules-group-header:hover td {
+  color: #52a68f;
+}
+
+.rules-group-caret {
+  display: inline-block;
+  margin-right: 8px;
+  transition: transform 0.2s;
+  color: #8b9bb0;
+}
+
+.rules-group-header.open .rules-group-caret {
+  transform: rotate(90deg);
+}
+
+.rules-group-count {
+  margin-left: 8px;
+  font-size: 11px;
+  color: #8b9bb0;
+  font-weight: 400;
+}
+
+.rules-group-star {
+  margin-left: 8px;
+  color: #52a68f;
+  font-size: 11px;
+}
+
+/* 批C：停用行 / 拖拽排序视觉 */
+tr.rule-disabled .rules-name,
+tr.rule-disabled .rules-content {
+  opacity: 0.4;
+}
+
+tr.rule-dragging {
+  opacity: 0.35;
+}
+
+.rules-table tr[draggable="true"] {
+  cursor: grab;
+}
+
+tr.rule-drop-above td {
+  border-top: 2px solid #327b68 !important;
+}
+
+tr.rule-drop-below td {
+  border-bottom: 2px solid #327b68 !important;
+}
+
+/* 批B：编辑弹窗加宽 + 内容主区 + 高级选项折叠 */
+.rules-edit-dialog.rules-edit-dialog-wide {
+  max-width: min(860px, 94vw);
+}
+
+.rules-edit-dialog .rule-content-main {
+  min-height: 280px;
+  /* 与界面正文同字体（HP：mono 中英混排贼难受）；行距放宽照顾长 prompt */
+  font-family: 'Inter', 'Microsoft YaHei', system-ui, sans-serif;
+  font-size: 13.5px;
+  line-height: 1.75;
+}
+
+/* 折叠区通用组件：rule-adv（规则编辑弹窗高级选项）+ settings-collapse（各设置页高级设置） */
+details.rule-adv,
+details.settings-collapse {
+  margin-top: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 2px 18px 12px;
+  background: rgba(44, 58, 82, 0.3);
+  transition: border-color 0.25s ease;
+}
+
+details.settings-collapse:hover {
+  border-color: rgba(82, 166, 143, 0.22);
+}
+
+details.rule-adv summary,
+details.settings-collapse summary {
+  cursor: pointer;
+  font-size: 12.5px;
+  color: #94a3b8;
+  padding: 10px 0;
+  user-select: none;
+  list-style: none;
+}
+
+details.rule-adv summary::-webkit-details-marker,
+details.settings-collapse summary::-webkit-details-marker {
+  display: none;
+}
+
+details.rule-adv summary::before,
+details.settings-collapse summary::before {
+  content: '▸';
+  display: inline-block;
+  margin-right: 6px;
+  transition: transform 0.2s;
+}
+
+details.rule-adv[open] summary::before,
+details.settings-collapse[open] summary::before {
+  transform: rotate(90deg);
+}
+
+details.rule-adv summary:hover,
+details.settings-collapse summary:hover {
+  color: #52a68f;
+}
+
+/* 设置页折叠区：收口时不留下边距（padding 由展开内容撑） */
+details.settings-collapse:not([open]) {
+  padding-bottom: 2px;
+}
+
+.rules-empty {
+  padding: 40px;
+  text-align: center;
+  color: #8b9bb0;
+  font-size: 14px;
+}
+
+/* ===== Tags collapsible categorizations ===== */
+.tags-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tag-category {
+  background: rgba(44, 58, 82, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.25s;
+}
+
+.tag-category:hover {
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(44, 58, 82, 0.35);
+}
+
+.tag-category-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s;
+}
+
+.tag-category-header:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.tag-category-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #f1f5f9;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tag-category-title .tag-count {
+  font-size: 11px;
+  font-weight: 500;
+  color: #cbd5e1;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.tag-category-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.tag-category-actions button {
+  padding: 4px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  font-size: 11px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.05);
+  color: #cbd5e1;
+  transition: all 0.15s;
+}
+
+.tag-category-actions button:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+.tag-category-actions button.del-cat:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #f87171;
+}
+
+.tag-category-body {
+  padding: 16px 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag-category-body.collapsed {
+  display: none;
+}
+
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  color: #e2e8f0;
+  background: rgba(50, 123, 104, 0.1);
+  border: 1px solid rgba(50, 123, 104, 0.25);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+}
+
+.tag-chip:hover {
+  background: rgba(50, 123, 104, 0.25);
+  border-color: rgba(50, 123, 104, 0.45);
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(50, 123, 104, 0.15);
+}
+
+.tag-chip .tag-remove {
+  font-size: 11px;
+  color: #cbd5e1;
+  cursor: pointer;
+  margin-left: 4px;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+.tag-chip .tag-remove:hover {
+  background: rgba(239, 68, 68, 0.25);
+  color: #f87171;
+}
+
+.tag-add-input {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tag-add-input input {
+  width: 110px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  background: transparent;
+  color: #ffffff;
+  font-size: 12px;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.tag-add-input input:focus {
+  border-color: rgba(20, 184, 166, 0.6);
+  width: 140px;
+  background: rgba(44, 58, 82, 0.3);
+}
+
+.tag-add-input input::placeholder {
+  color: #8b9bb0;
+}
+
+.status-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.status-indicator.success {
+  background: #327b68;
+  box-shadow: 0 0 8px #327b68;
+}
+
+.status-indicator.error {
+  background: #ef4444;
+  box-shadow: 0 0 8px #ef4444;
+}

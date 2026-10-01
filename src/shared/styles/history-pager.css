@@ -1,0 +1,45 @@
+/* 历史分页器（三端共享 history-view.js 渲染；观感对齐 popup 定稿） */
+.hist-pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 10px 0 2px;
+  margin-top: 4px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.hist-pager-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #cbd5e1;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.hist-pager-btn:hover:not(:disabled) {
+  background: rgba(82, 166, 143, 0.16);
+  border-color: rgba(82, 166, 143, 0.4);
+  color: #52a68f;
+}
+
+.hist-pager-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.hist-pager-info {
+  font-size: 12.5px;
+  color: #94a3b8;
+  min-width: 44px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}

@@ -1,0 +1,672 @@
+/* ===== Custom scrollbars ===== */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  /* A 路线（2026-07-05 HP 定调）：浅灰模糊摄影图铺底 + 暗玻璃容器悬浮其上 */
+  background: url('../../assets/bg/console-bg.jpg') center / cover no-repeat fixed, #d8d8da;
+  min-height: 100vh;
+  padding: 24px;
+  color: #cbd5e1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.opt-svg {
+  width: 16px;
+  height: 16px;
+  stroke-width: 2.2;
+  flex-shrink: 0;
+  transition: all 0.25s;
+  vertical-align: middle;
+  color: #94a3b8;
+}
+
+.sidebar-item:hover .opt-svg {
+  color: #f1f5f9;
+  transform: scale(1.08);
+}
+
+.sidebar-item.active .opt-svg {
+  color: #34d399 !important;
+  filter: drop-shadow(0 0 6px rgba(52, 211, 153, 0.45));
+}
+
+.section-svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2.3;
+  flex-shrink: 0;
+  vertical-align: middle;
+  display: inline-block;
+  margin-right: 8px;
+  stroke: #45c9ab; /* HP：图标太暗——提亮并盖掉内联 #327b68 */
+  filter: drop-shadow(0 0 6px rgba(20, 184, 166, 0.30));
+}
+
+/* 卡片组标题 16px 线性图标（品牌绿 + 微光） */
+.group-svg {
+  width: 16px;
+  height: 16px;
+  stroke-width: 2.2;
+  flex-shrink: 0;
+  color: #52a68f;
+  filter: drop-shadow(0 0 5px rgba(50, 123, 104, 0.35));
+}
+
+/* h3 为 space-between 布局时：图标+标题打包成一组 */
+.group-title-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.container {
+  width: 100%;
+  max-width: 1100px;
+  background: rgba(19, 28, 44, 0.56);
+  backdrop-filter: blur(36px) saturate(150%);
+  -webkit-backdrop-filter: blur(36px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 20px;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.38), 
+              inset 0 1px 1px rgba(255, 255, 255, 0.07);
+  overflow: hidden;
+}
+
+.header {
+  background: linear-gradient(135deg, rgba(50, 123, 104, 0.08) 0%, rgba(38, 123, 140, 0.03) 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 36px 40px;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+}
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(50, 123, 104, 0.35), rgba(6, 182, 212, 0.35), transparent);
+}
+
+/* 头部氛围光斑：右上角品牌绿柔光，给排版留白处一点呼吸 */
+.header::before {
+  content: '';
+  position: absolute;
+  top: -70px; right: -50px;
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle, rgba(20, 184, 166, 0.10) 0%, transparent 68%);
+  pointer-events: none;
+}
+
+.header h1 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 27px;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  background: linear-gradient(135deg, #ffffff 35%, #a7f3d0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 7px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-logo-container {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(82, 166, 143, 0.08);
+  border-radius: 9px;
+  border: 1px solid rgba(82, 166, 143, 0.25);
+  box-shadow: 0 4px 12px rgba(82, 166, 143, 0.12);
+  flex-shrink: 0;
+}
+
+.header-logo-svg {
+  width: 20px;
+  height: 20px;
+  filter: drop-shadow(0 2px 6px rgba(82, 166, 143, 0.35));
+}
+
+.header p {
+  font-size: 13px;
+  color: #aeb9cb; /* HP：提透玻璃上旧灰 #7e8ca3 看不清 */
+  letter-spacing: 0.015em;
+}
+
+.content {
+  display: flex;
+  min-height: 620px;
+}
+
+/* ===== Left floating glassmorphic sidebar ===== */
+.sidebar {
+  width: 240px;
+  background: rgba(255, 255, 255, 0.015);
+  border-right: 1px solid rgba(255, 255, 255, 0.04);
+  padding: 30px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sidebar-item {
+  position: relative;
+  padding: 12px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 14px;
+  font-weight: 500;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid transparent;
+}
+
+/* active 指示条：左缘品牌绿渐变短棒，随选中弹出 */
+.sidebar-item::before {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 50%;
+  width: 3px;
+  height: 18px;
+  border-radius: 99px;
+  background: linear-gradient(180deg, #34d399, #14b8a6);
+  box-shadow: 0 0 8px rgba(20, 184, 166, 0.55);
+  transform: translateY(-50%) scaleY(0);
+  transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.sidebar-item:hover {
+  background: rgba(255, 255, 255, 0.035);
+  color: #f1f5f9;
+  transform: translateX(3px);
+  box-shadow: 0 0 18px rgba(50, 123, 104, 0.08);
+}
+
+.sidebar-item.active {
+  background: linear-gradient(135deg, rgba(50, 123, 104, 0.22) 0%, rgba(20, 184, 166, 0.10) 100%);
+  border: 1px solid rgba(50, 123, 104, 0.32);
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 4px 20px rgba(50, 123, 104, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  text-shadow: 0 0 8px rgba(50, 123, 104, 0.25);
+}
+
+.sidebar-item.active::before {
+  transform: translateY(-50%) scaleY(1);
+}
+
+/* ===== Main Panel Content ===== */
+.main {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+  background: transparent;
+}
+
+.section {
+  display: none;
+  animation: sectionFadeIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.section.active {
+  display: block;
+}
+
+@keyframes sectionFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.section h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 26px;
+  color: #f8fafc;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 16px;
+}
+
+/* ===== Form Inputs & Select Controls ===== */
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #94a3b8;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea,
+.rules-edit-dialog input,
+.rules-edit-dialog textarea,
+.rules-edit-dialog select,
+.setting-row select,
+.history-filter-bar input,
+.history-filter-bar select,
+#sys-site-blacklist {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(51, 65, 85, 0.26);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 10px;
+  font-size: 14px;
+  color: #f1f5f9;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus,
+.rules-edit-dialog input:focus,
+.rules-edit-dialog textarea:focus,
+.rules-edit-dialog select:focus,
+.setting-row select:focus,
+.history-filter-bar input:focus,
+.history-filter-bar select:focus,
+#sys-site-blacklist:focus {
+  outline: none;
+  border-color: #14b8a6;
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.18), 0 0 18px rgba(20, 184, 166, 0.12), inset 0 2px 4px rgba(0, 0, 0, 0.15);
+  background: rgba(44, 58, 82, 0.5);
+}
+
+.form-group textarea,
+#sys-site-blacklist {
+  resize: vertical;
+  min-height: 110px;
+  line-height: 1.6;
+}
+
+#sys-site-blacklist {
+  font-family: 'Inter', 'Microsoft YaHei', system-ui, sans-serif !important;
+  font-size: 13px !important;
+}
+
+/* 聚焦光环全局兜底：未定义专属 focus 样式的输入件不再落到 UA 黑白双环
+   （HP 圈标签输入框白框）。专属 focus 规则特异度更高，不受影响。 */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: none;
+  border-color: rgba(20, 184, 166, 0.55) !important;
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.16);
+}
+button:focus-visible,
+[role="combobox"]:focus-visible {
+  outline: 2px solid rgba(20, 184, 166, 0.45);
+  outline-offset: 2px;
+}
+
+/* 选中文字高亮：系统蓝 → 品牌绿膜（原生件谱系最后一员） */
+::selection { background: rgba(20, 184, 166, 0.28); color: #f1f5f9; }
+
+/* ── 原生表单件终扫（2026-07-05 HP 圈 number 调节钮后一族清零）── */
+/* 滚动条角件（滚动条与 resize 手柄交汇角）：系统白块 → 透明 */
+::-webkit-scrollbar-corner { background: transparent; }
+
+/* textarea 原生 resize 手柄：系统白方块 → 主题化双斜纹（拖拽功能保留） */
+textarea::-webkit-resizer {
+  background: linear-gradient(135deg,
+    transparent 0 55%, rgba(69, 201, 171, 0.45) 55% 65%,
+    transparent 65% 75%, rgba(69, 201, 171, 0.45) 75% 85%,
+    transparent 85%);
+  border-radius: 0 0 8px 0;
+}
+
+
+/* number 上下调节钮：系统白件，滚轮/键盘调值仍可用 */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+input[type="number"] { appearance: textfield; -moz-appearance: textfield; }
+/* 浏览器自动填充黄/白底：用大内阴影压回主题井色 */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px #2c3a52 inset !important;
+  -webkit-text-fill-color: #f1f5f9 !important;
+  caret-color: #f1f5f9;
+  transition: background-color 99999s ease-out;
+}
+/* 变量槽勾选框：裸原生白方框 → 自绘描边方块 + 选中绿膜勾 */
+.rule-var-sel input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 4px;
+  border: 1.5px solid rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+  display: inline-grid;
+  place-content: center;
+  transition: border-color 0.2s, background 0.2s;
+}
+.rule-var-sel input[type="checkbox"]:hover { border-color: rgba(52, 166, 143, 0.55); }
+.rule-var-sel input[type="checkbox"]::before {
+  content: '';
+  width: 9px;
+  height: 9px;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+  background: #45c9ab;
+  transform: scale(0);
+  transition: transform 0.15s ease;
+}
+.rule-var-sel input[type="checkbox"]:checked {
+  border-color: rgba(52, 166, 143, 0.65);
+  background: rgba(50, 123, 104, 0.18);
+}
+.rule-var-sel input[type="checkbox"]:checked::before { transform: scale(1); }
+.rule-var-sel input[type="checkbox"]:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* 原生 select 展开列表：暗底浅字（选中行高亮蓝是浏览器 UA 行为，无法完全覆盖） */
+select option {
+  background-color: #131c2e;
+  color: #dbe4ef;
+}
+
+.help-text {
+  font-size: 12px;
+  color: #93a2b7;
+  margin-top: 6px;
+}
+
+/* API 帮助块标题 + 链接（暗底可读的翡翠色，非靛蓝） */
+.help-text-title {
+  font-weight: 600;
+  color: #94a3b8;
+  margin-bottom: 4px;
+}
+
+.help-text a {
+  color: #7fcdb8; /* 降饱和降亮，不与正文抢（HP：绿字太扎眼） */
+  text-decoration: none;
+  border-bottom: 1px solid rgba(127, 205, 184, 0.30);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.help-text a:hover {
+  color: #a7e6d4;
+  border-bottom-color: rgba(167, 230, 212, 0.55);
+}
+
+/* API section 标题旁的小字标注（如 VLM 必需）：70% 透明度小号，对齐 .tab-desc 观感 */
+.api-required-hint {
+  font-size: 11px;
+  font-weight: 400;
+  opacity: 0.7;
+  margin-left: 4px;
+}
+
+/* 常驻引导条：暗玻璃 + 翡翠左边条（复用设计 token） */
+.api-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  background: rgba(44, 58, 82, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 3px solid #327b68;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #cbd5e1;
+}
+
+.api-banner-text {
+  flex: 1;
+}
+
+.api-banner-close {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.api-banner-close:hover {
+  background: rgba(148, 163, 184, 0.12);
+  color: #e2e8f0;
+}
+
+/* 测试按钮禁用态（'_add_new' tab 下）：压掉 btn-success 的悬浮抬升/高光 */
+#test-llm-btn:disabled,
+#test-vlm-btn:disabled,
+#test-llm-btn:disabled:hover,
+#test-vlm-btn:disabled:hover {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  background: rgba(50, 123, 104, 0.16);
+}
+
+/* ===== Select Arrow Beautify ===== */
+select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23cbd5e1' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 16px center !important;
+  padding-right: 40px !important;
+}
+
+select option {
+  background: #0f172a;
+  color: #cbd5e1;
+}
+
+/* 语言选择器：右对齐、内容宽度（覆盖 .setting-row select 的 width:100%，仅改宽度，配色/箭头/聚焦沿用主题） */
+#ui-language-select {
+  width: auto;
+  min-width: 168px;
+}
+
+/* ===== 自绘下拉（select-ui.js 渐进增强）=====
+   原生 select 展开列表白底/系统蓝无法主题化 → 视觉隐藏原生件，触发器+毛玻璃面板接管。
+   设计铁律：大面积实心色禁用；面板=暗玻璃，选中/hover 行=绿膜。 */
+.hp-select {
+  position: relative;
+  width: 100%;
+}
+
+/* 语言下拉沿用原 #ui-language-select 的内容宽度（wrapper 顶替其布局角色） */
+.hp-select[data-for="ui-language-select"] {
+  width: auto;
+  min-width: 168px;
+}
+
+/* 原生 select：留在 DOM 当数据/表单真值源，视觉与焦点链剥离（不可 display:none） */
+select.hp-select-native {
+  position: absolute !important;
+  left: 0 !important;
+  top: 0 !important;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* 触发器：照搬现 select 主题观感（暗底/圆角/右侧箭头/聚焦 teal 光环），压掉全局 button 样式 */
+.hp-select-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  gap: 0;
+  padding: 12px 40px 12px 16px;
+  background-color: rgba(44, 58, 82, 0.35);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23cbd5e1' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #f1f5f9;
+  font-family: 'Inter', sans-serif;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.hp-select-trigger:focus,
+.hp-select-trigger[aria-expanded="true"] {
+  outline: none;
+  border-color: #14b8a6;
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.18), 0 0 18px rgba(20, 184, 166, 0.12), inset 0 2px 4px rgba(0, 0, 0, 0.15);
+  background-color: rgba(44, 58, 82, 0.5);
+}
+
+.hp-select-trigger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.hp-select-value {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 1.2em; /* 空值时也撑住行高，触发器不塌 */
+}
+
+/* 展开面板：暗玻璃毛玻璃，fixed 定位挂 body（高于弹窗 .rules-edit-overlay 的 100000） */
+.hp-select-panel {
+  position: fixed;
+  z-index: 100010;
+  box-sizing: border-box;
+  padding: 5px;
+  background: rgba(19, 28, 44, 0.72); /* HP 摸边界：0.92→0.82→0.72 */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  max-height: 260px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
+  animation: hpSelectPop 0.16s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes hpSelectPop {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hp-select-panel::-webkit-scrollbar {
+  width: 6px;
+}
+.hp-select-panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+.hp-select-panel::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 3px;
+}
+
+.hp-select-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  padding: 0 10px;
+  border-radius: 7px;
+  font-size: 13.5px;
+  color: #cbd5e1;
+  cursor: pointer;
+}
+
+.hp-select-option-label {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 选中行：绿膜 + 翡翠字 + 勾（大面积实心色禁用，绝不实心绿/系统蓝） */
+.hp-select-option.is-selected {
+  background: rgba(50, 123, 104, 0.14);
+  color: #9be8d6;
+}
+
+/* hover / 键盘高亮行：绿膜 */
+.hp-select-option.is-active {
+  background: rgba(50, 123, 104, 0.22);
+  color: #9be8d6;
+}
+
+.hp-select-option.is-disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.hp-select-check {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+}
+
+.hp-select-group-label {
+  padding: 8px 10px 4px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: #7d8ba1;
+}

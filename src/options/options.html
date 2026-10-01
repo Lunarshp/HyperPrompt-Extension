@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="options.pageTitle">HyperPrompt - 设置</title>
+  <link rel="stylesheet" href="../shared/styles/fonts.css">
+  <link rel="stylesheet" href="../shared/styles/page-reset.css">
+  <link rel="stylesheet" href="options-base.css">
+  <link rel="stylesheet" href="options-controls.css">
+  <link rel="stylesheet" href="options-api.css">
+  <link rel="stylesheet" href="options-rules.css">
+  <link rel="stylesheet" href="options-overlays.css">
+  <link rel="stylesheet" href="options-history.css">
+  <link rel="stylesheet" href="../shared/styles/history-pager.css">
+  <link rel="stylesheet" href="options-history-detail.css">
+  <link rel="stylesheet" href="../shared/styles/history-refset-cards.css">
+  <link rel="stylesheet" href="options-responsive.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>
+        <div class="header-logo-container">
+          <svg class="header-logo-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 3Q12 12 21 12Q12 12 12 21Q12 12 3 12Q12 12 12 3Z" fill="url(#sparkle-grad-opt)"/>
+            <path d="M19 15Q19 18 22 18Q19 18 19 21Q19 18 16 18Q19 18 19 15Z" fill="url(#sparkle-grad-opt)" opacity="0.85"/>
+            <defs>
+              <linearGradient id="sparkle-grad-opt" x1="3" y1="3" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#34d399"/>
+                <stop offset="100%" stop-color="#059669"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span data-i18n="options.header.title">HyperPrompt 设置</span>
+      </h1>
+      <p data-i18n="options.header.subtitle">配置 AI 模型 API 和扩展功能</p>
+    </div>
+
+    <div class="content">
+      <div class="sidebar">
+        <!-- edition-navigation -->
+        <div class="sidebar-item active" data-section="api">
+          <svg class="opt-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="2" width="4" height="6" rx="1"></rect><rect x="6" y="2" width="4" height="6" rx="1"></rect><path d="M6 8v4a6 6 0 0 0 12 0V8"></path><line x1="12" y1="18" x2="12" y2="22"></line></svg>
+          <span data-i18n="nav.api">API 管理器</span>
+        </div>
+        <div class="sidebar-item" data-section="rules">
+          <svg class="opt-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
+          <span data-i18n="nav.rules">自定义规则</span>
+        </div>
+        <div class="sidebar-item" data-section="translation">
+          <svg class="opt-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8l6 6M4 14l6-6 2-3M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"></path></svg>
+          <span data-i18n="nav.translation">翻译设置</span>
+        </div>
+        <div class="sidebar-item" data-section="history">
+          <svg class="opt-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><polyline points="3 3 3 8 8 8"></polyline><line x1="12" y1="7" x2="12" y2="12"></line><line x1="12" y1="12" x2="16" y2="14"></line></svg>
+          <span data-i18n="nav.history">历史记录</span>
+        </div>
+        <div class="sidebar-item" data-section="system">
+          <svg class="opt-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          <span data-i18n="nav.system">系统</span>
+        </div>
+        <div class="sidebar-item" data-section="about">
+          <svg class="opt-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+          <span data-i18n="nav.about">关于</span>
+        </div>
+      </div>
+
+      <div class="main">
+        <!-- API 管理器 -->
+        <div class="section active" id="api">
+          <h2><svg class="section-svg" viewBox="0 0 24 24" fill="none" stroke="#327b68" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="2" width="4" height="6" rx="1"></rect><rect x="6" y="2" width="4" height="6" rx="1"></rect><path d="M6 8v4a6 6 0 0 0 12 0V8"></path><line x1="12" y1="18" x2="12" y2="22"></line></svg> <span data-i18n="nav.api">API 管理器</span></h2>
+
+          <section class="api-section" id="api-disclosure-card" hidden role="region" aria-labelledby="api-disclosure-title" aria-describedby="api-disclosure-body">
+            <div class="api-section-header" id="api-disclosure-title" data-i18n="options.api.disclosureTitle"></div>
+            <p class="help-text" id="api-disclosure-body" data-i18n="options.api.disclosureBody"></p>
+            <div class="button-group">
+              <button class="api-add-confirm-btn" id="api-disclosure-ack" type="button" data-i18n="options.api.disclosureAck"></button>
+            </div>
+          </section>
+
+          <!-- 常驻引导条（默认隐藏，JS 按 flag 控制显隐）：新用户第一步 CTA，× 关闭后永不再显 -->
+          <div class="api-banner" id="api-onboard-banner" style="display:none;">
+            <span class="api-banner-text" data-i18n="options.api.onboardBanner">第一步：选择服务商并填入 API 密钥 → 保存 → 测试连接。密钥仅保存在本机，不会上传。</span>
+            <button class="api-banner-close" id="api-onboard-banner-close" type="button" title="关闭" aria-label="关闭" data-i18n-attr="title:common.close;aria-label:common.close"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+          </div>
+
+          <!-- 「下一步」引导条（配完 key 首次可用后由 JS 弹出，仅一次） -->
+          <div class="api-banner" id="api-nextstep-banner" style="display:none;">
+            <span class="api-banner-text" data-i18n="options.api.nextStep">已就绪！打开任意网页，把鼠标移到图片上，用悬浮按钮开始反推。</span>
+            <button class="api-banner-close" id="api-nextstep-banner-close" type="button" title="关闭" aria-label="关闭" data-i18n-attr="title:common.close;aria-label:common.close"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+          </div>
+
+          <!-- 去哪拿 key 帮助块（对齐历史/规则 section help-text；正文含链接走 data-i18n-html，机制同 signinDesc） -->
+          <div class="help-text" style="margin-bottom:14px;">
+            <div class="help-text-title" data-i18n="options.api.helpTitle">如何获取 API 密钥？</div>
+            <div data-i18n-html="options.api.helpBody">在服务商控制台创建 API Key 后填入下方，密钥仅保存在本机、不会上传。</div>
+          </div>
+
+          <div class="help-text" id="api-disclosure-note" style="margin-bottom:14px;" hidden>
+            <div class="help-text-title" data-i18n="options.api.disclosureNoteTitle"></div>
+            <div data-i18n="options.api.disclosureBody"></div>
+          </div>
+
+          <!-- 两张主卡：服务商（tabs + 连接）与模型（LLM + VLM）；高级设置独立。 -->
+          <div id="api-providers">
+            <section class="api-section" id="api-provider-card">
+              <div class="provider-tabs" id="api-tabs"></div>
+              <div id="api-provider-connections"></div>
+            </section>
+            <section class="api-section" id="api-model-card" hidden>
+              <div id="api-provider-models"></div>
+            </section>
+            <div id="api-provider-advanced"></div>
+          </div>
+
+          <div class="button-group">
+            <button class="btn-primary" id="save-api-btn"><svg class="btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg><span data-i18n="options.api.saveConfigBtn">保存配置</span></button>
+            <button class="btn-success" id="test-llm-btn"><svg class="btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v8L4.36 20.62A1 1 0 0 0 5.22 22h13.56a1 1 0 0 0 .86-1.38L14 10V2"></path><line x1="6" y1="2" x2="18" y2="2"></line><line x1="8.5" y1="10" x2="15.5" y2="10"></line></svg><span data-i18n="options.api.testLlm">测试文本模型</span></button>
+            <button class="btn-success" id="test-vlm-btn"><svg class="btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v8L4.36 20.62A1 1 0 0 0 5.22 22h13.56a1 1 0 0 0 .86-1.38L14 10V2"></path><line x1="6" y1="2" x2="18" y2="2"></line><line x1="8.5" y1="10" x2="15.5" y2="10"></line></svg><span data-i18n="options.api.testVlm">测试视觉模型</span></button>
+          </div>
+        </div>
+
+        <!-- 翻译设置 -->
+        <div class="section" id="translation">
+          <h2><svg class="section-svg" viewBox="0 0 24 24" fill="none" stroke="#327b68" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8l6 6M4 14l6-6 2-3M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"></path></svg> <span data-i18n="options.translation.title">翻译服务配置</span></h2>
+
+          <div class="settings-group">
+            <h3><svg class="group-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8l6 6M4 14l6-6 2-3M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"></path></svg><span data-i18n="options.translation.settingsGroup">翻译功能设置</span></h3>
+
+              <div class="setting-row">
+                <span class="setting-label"><span data-i18n="options.translation.keepLinebreak">保留换行符</span> <span class="tip" data-i18n-attr="title:options.translation.keepLinebreakTip" title="翻译时保留原文中的换行符，避免多行提示词被合并">ⓘ</span></span>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="trans-keep-linebreak" checked>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+
+              <div class="setting-row">
+                <span class="setting-label"><span data-i18n="options.translation.removeDots">移除多余连续点号</span> <span class="tip" data-i18n-attr="title:options.translation.removeDotsTip" title="自动移除输出中连续的多个句点号">ⓘ</span></span>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="trans-remove-dots">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+
+              <div class="setting-row">
+                <span class="setting-label"><span data-i18n="options.translation.removeSpaces">自动移除多余空格</span> <span class="tip" data-i18n-attr="title:options.translation.removeSpacesTip" title="压缩多个连续空格为单个空格">ⓘ</span></span>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="trans-remove-spaces">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+
+              <div class="setting-row">
+                <span class="setting-label"><span data-i18n="options.translation.halfPunctuation">始终使用半角标点符号</span> <span class="tip" data-i18n-attr="title:options.translation.halfPunctuationTip" title="将全角标点（，。；）替换为半角标点，更适合 AI 绘图提示词">ⓘ</span></span>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="trans-half-punctuation">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+
+              <div class="setting-row">
+                <span class="setting-label"><span data-i18n="options.translation.useCache">使用翻译缓存</span> <span class="tip" data-i18n-attr="title:options.translation.useCacheTip" title="缓存翻译结果，相同文本不必重复调用 API">ⓘ</span></span>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="trans-use-cache" checked>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+          </div>
+
+          <div class="button-group">
+            <button class="btn-primary" id="save-trans-btn"><svg class="btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg><span data-i18n="options.translation.saveBtn">保存翻译设置</span></button>
+          </div>
+        </div>
+
+        <!-- 历史记录 -->
+        <div class="section" id="history">
+          <h2><svg class="section-svg" viewBox="0 0 24 24" fill="none" stroke="#327b68" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><polyline points="3 3 3 8 8 8"></polyline><line x1="12" y1="7" x2="12" y2="12"></line><line x1="12" y1="12" x2="16" y2="14"></line></svg> <span data-i18n="options.history.sectionTitle">生成历史记录</span></h2>
+          <div class="help-text" style="margin-bottom:10px;" data-i18n="options.history.sectionHelp">给反推、扩写、翻译结果打标签，快速找回可复用 Prompt。</div>
+          <div id="history-alert"></div>
+
+          <div class="history-filter-bar">
+            <input type="text" id="history-search" placeholder="搜索内容…" data-i18n-attr="placeholder:options.history.searchPlaceholder" />
+            <select id="history-type-filter">
+              <option value="all" data-i18n="history.filterAll">全部类型</option>
+              <option value="image" data-i18n="type.image">图像</option>
+              <option value="video" data-i18n="type.video">视频</option>
+              <option value="prompt" data-i18n="type.prompt">提示词</option>
+              <option value="translate" data-i18n="type.translate">翻译</option>
+              <option value="reference_set" data-i18n="type.reference_set">参考集</option>
+            </select>
+          </div>
+          <div class="history-tag-filter" id="history-tag-filter"></div>
+
+          <div class="history-list" id="history-list"></div>
+
+          <div class="button-group">
+            <button class="btn-danger" id="clear-history-btn"><svg class="btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg><span data-i18n="options.history.clearBtn">清空历史记录</span></button>
+          </div>
+        </div>
+
+        <!-- 系统设置 -->
+        <div class="section" id="system">
+          <h2><svg class="section-svg" viewBox="0 0 24 24" fill="none" stroke="#327b68" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg> <span data-i18n="options.system.title">系统设置</span></h2>
+
+          <div class="settings-group">
+            <h3><svg class="group-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="21" y1="4" x2="14" y2="4"></line><line x1="10" y1="4" x2="3" y2="4"></line><line x1="21" y1="12" x2="12" y2="12"></line><line x1="8" y1="12" x2="3" y2="12"></line><line x1="21" y1="20" x2="16" y2="20"></line><line x1="12" y1="20" x2="3" y2="20"></line><line x1="14" y1="2" x2="14" y2="6"></line><line x1="8" y1="10" x2="8" y2="14"></line><line x1="16" y1="18" x2="16" y2="22"></line></svg><span data-i18n="options.system.configGroup">配置</span></h3>
+            <p style="font-size:12px;color:#888;margin-bottom:10px;" data-i18n="options.system.configHint">请确保所选服务商已配置密钥。</p>
+
+            <div class="setting-row">
+              <span class="setting-label"><span data-i18n="options.system.selectVisionService">选择图像反推服务</span> <span class="tip" data-i18n-attr="title:options.system.selectVisionServiceTip" title="选择用于图像反推（VLM）的 API 服务商">ⓘ</span></span>
+              <select id="sys-vision-provider"></select>
+            </div>
+
+            <div class="setting-row">
+              <span class="setting-label"><span data-i18n="options.system.selectPromptService">选择提示词优化服务</span> <span class="tip" data-i18n-attr="title:options.system.selectPromptServiceTip" title="选择用于提示词扩写优化（LLM）的 API 服务商">ⓘ</span></span>
+              <select id="sys-prompt-provider"></select>
+            </div>
+
+            <div class="setting-row">
+              <span class="setting-label"><span data-i18n="options.system.selectTranslateService">选择翻译服务</span> <span class="tip" data-i18n-attr="title:options.system.selectTranslateServiceTip" title="选择用于大模型翻译的 API 服务商">ⓘ</span></span>
+              <select id="sys-translate-provider"></select>
+            </div>
+          </div>
+
+          <div class="settings-group">
+            <h3><svg class="group-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg><span data-i18n="options.system.blacklistGroup">网站黑名单</span></h3>
+            <p style="font-size:12px;color:#888;margin-bottom:10px;" data-i18n-html="options.system.blacklistHint">在以下网站上禁用插件（每行一个域名，如 <code>youtube.com</code>）</p>
+            <textarea id="sys-site-blacklist" rows="5" placeholder="youtube.com&#10;twitter.com&#10;example.com"></textarea>
+            <div style="margin-top:8px;">
+              <button class="btn-success" id="add-current-site-btn" style="padding:6px 14px;font-size:13px;"><svg class="btn-icon-svg" style="width: 13px; height: 13px; margin-right: 4px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg><span data-i18n="options.system.addCurrentSiteBtn">添加当前网站</span></button>
+            </div>
+          </div>
+
+          <details class="settings-collapse">
+            <summary data-i18n="common.advSettings">高级设置</summary>
+
+            <div class="setting-row">
+              <span class="setting-label"><span data-i18n="options.system.streamToggle">流式输出开关</span> <span class="tip" data-i18n-attr="title:options.system.streamToggleTip" title="开启后，生成文字会随响应到达持续显示；关闭后，界面会在完整结果返回后统一显示。">ⓘ</span></span>
+              <label class="toggle-switch">
+                <input type="checkbox" id="sys-stream-enabled">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+
+            <div class="setting-row">
+              <span class="setting-label"><span data-i18n="options.system.streamDebug">控制台流式输出边界日志</span> <span class="tip" data-i18n-attr="title:options.system.streamDebugTip" title="开启后在浏览器控制台输出流式传输的边界调试日志">ⓘ</span></span>
+              <label class="toggle-switch">
+                <input type="checkbox" id="sys-stream-debug">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+
+            <div class="setting-row">
+              <span class="setting-label"><span data-i18n="options.system.visionMethod">小助手创建方式（图像反推）</span> <span class="tip" data-i18n-attr="title:options.system.visionMethodTip" title="选择图像反推时使用的 AI 模型类型">ⓘ</span></span>
+              <select id="sys-vision-method">
+                <option value="vision" data-i18n="options.system.visionModelOpt">Vision 模型</option>
+                <option value="llm" data-i18n="options.system.llmModelOpt">LLM 模型</option>
+              </select>
+            </div>
+
+            <div class="setting-row">
+              <span class="setting-label"><span data-i18n="options.system.promptMethod">小助手创建方式（提示词）</span> <span class="tip" data-i18n-attr="title:options.system.promptMethodTip" title="选择提示词扩写时使用的 AI 模型类型">ⓘ</span></span>
+              <select id="sys-prompt-method">
+                <option value="llm" data-i18n="options.system.llmModelOpt">LLM 模型</option>
+                <option value="vision" data-i18n="options.system.visionModelOpt">Vision 模型</option>
+              </select>
+            </div>
+
+            <div class="setting-row">
+              <span class="setting-label"><span data-i18n="options.system.hoverResetLabel">清除各站点悬浮记忆</span> <span class="tip" data-i18n-attr="title:options.system.hoverResetTip" title="清除所有网站上「关闭悬浮球/图片悬浮按钮」的开关与拖拽位置记忆，悬浮入口在全部网站恢复默认显示。">ⓘ</span></span>
+              <button class="btn-danger" id="hover-reset-btn" style="padding:6px 16px;font-size:13px;" data-i18n="options.system.hoverResetBtn">清除</button>
+            </div>
+
+            <div class="setting-row">
+              <span class="setting-label"><span data-i18n="options.system.exportLabel">导出全部数据</span> <span class="tip" data-i18n-attr="title:options.system.exportTip" title="将历史记录、自定义规则和系统设置导出为 JSON 文件备份到本地；不包含 API 密钥。">ⓘ</span></span>
+              <button class="btn-success" id="export-all-data-btn" style="padding:6px 16px;font-size:13px;"><svg class="btn-icon-svg" style="width: 13px; height: 13px; margin-right: 4px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg><span data-i18n="options.system.exportBtn">导出</span></button>
+            </div>
+            <div class="setting-row">
+              <span class="setting-label"><span data-i18n="options.system.restoreLabel">恢复本地备份</span> <span class="tip" data-i18n-attr="title:options.system.restoreHelp" title="默认合并，同 ID 保留现有记录。包含历史、规则修改和偏好；不包含 API 密钥。最大 64 MiB。">ⓘ</span></span>
+              <button class="btn-success" id="import-all-data-btn" style="padding:6px 16px;font-size:13px;"><svg class="btn-icon-svg" style="width: 13px; height: 13px; margin-right: 4px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg><span data-i18n="options.system.restoreBtn">选择备份</span></button>
+              <input type="file" id="backup-file" accept=".json,application/json" hidden>
+            </div>
+            <div class="setting-row">
+              <span class="setting-label"><span data-i18n="options.system.restoreReplace">覆盖现有数据</span> <span class="tip" data-i18n-attr="title:options.system.restoreReplaceTip" title="开启后用备份整体替换本地历史、规则和备份中的偏好；关闭为合并，同 ID 保留现有记录。">ⓘ</span></span>
+              <label class="toggle-switch">
+                <input type="checkbox" id="backup-replace">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+
+
+            <div class="setting-row">
+              <span class="setting-label" data-i18n="options.system.cleanupLabel">清理历史、标签、缓存</span>
+              <button class="btn-danger" id="clear-all-data-btn" style="padding:6px 16px;font-size:13px;" data-i18n="options.system.cleanupBtn">清理</button>
+            </div>
+          </details>
+
+          <div class="button-group">
+            <button class="btn-primary" id="save-system-btn"><svg class="btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg><span data-i18n="options.system.saveBtn">保存系统设置</span></button>
+          </div>
+        </div>
+
+        <!-- 自定义规则 -->
+        <div class="section" id="rules">
+          <h2><svg class="section-svg" viewBox="0 0 24 24" fill="none" stroke="#327b68" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg> <span data-i18n="nav.rules">自定义规则</span></h2>
+          <div class="help-text" style="margin-bottom:10px;" data-i18n="options.rules.sectionHelp">自定义反推、扩写和翻译使用的规则，所有内置规则均可编辑。</div>
+          <div class="rules-manager">
+            <div class="rules-tabs" id="rules-tabs"></div>
+            <div class="rules-toolbar" id="rules-toolbar"></div>
+            <div class="rules-table-wrap">
+              <table class="rules-table" id="rules-table">
+                <thead>
+                  <tr>
+                    <th style="width:50px;" data-i18n="options.rules.colStatus">默认</th>
+                    <th style="width:150px;" data-i18n="options.rules.colName">规则名称</th>
+                    <th data-i18n="options.rules.colContent">规则内容</th>
+                    <th style="width:164px;" data-i18n="options.rules.colActions">操作</th>
+                  </tr>
+                </thead>
+                <tbody id="rules-tbody"></tbody>
+              </table>
+              <div class="rules-empty" id="rules-empty" style="display:none;" data-i18n="options.rules.emptyState">暂无规则，点击右上角添加</div>
+            </div>
+            <div class="button-group" style="margin-top:20px;">
+              <button class="btn-primary" id="save-rules-btn"><svg class="btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg><span data-i18n="options.rules.saveBtn">保存规则</span></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- edition-section -->
+
+        <!-- 关于 -->
+        <div class="section" id="about">
+          <h2><svg class="section-svg" viewBox="0 0 24 24" fill="none" stroke="#327b68" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg> <span data-i18n="options.about.title">关于本扩展</span></h2>
+          <div class="settings-group">
+            <h3 id="about-version" style="margin-bottom: 10px;">HyperPrompt</h3>
+            <p data-i18n="options.about.desc">强大的提示词生成和管理工具，支持多个AI模型进行图像分析、提示词生成和文本翻译。</p>
+            <hr style="margin: 15px 0; border: none; border-top: 1px solid rgba(255,255,255,0.08);">
+            <p><strong data-i18n="options.about.featuresTitle">功能特性：</strong></p>
+            <ul style="margin: 10px 0 0 20px;">
+              <li data-i18n="options.about.feat1">支持多个 AI 模型 (OpenAI, Gemini, GLM, Qwen, DeepSeek, Grok)</li>
+              <li data-i18n="options.about.feat2">图像智能分析，自动生成提示词</li>
+              <li data-i18n="options.about.feat3">多语言翻译支持</li>
+              <li data-i18n="options.about.feat4">提示词历史记录和收藏</li>
+              <li data-i18n="options.about.feat5">自定义规则：让反推、扩写和翻译按你的习惯输出</li>
+              <li data-i18n="options.about.feat6">一键复制和导出功能</li>
+            </ul>
+          </div>
+
+          <div class="settings-group">
+            <h3><svg class="group-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><span data-i18n="options.about.howtoTitle">怎么用</span></h3>
+            <ol style="margin: 10px 0 0 20px;">
+              <li data-i18n="options.about.howto1">在 API 管理器配置服务商密钥（图像反推需视觉模型）</li>
+              <li data-i18n="options.about.howto2">打开任意网页，鼠标悬停到图片/视频上，用悬浮按钮反推提示词</li>
+              <li data-i18n="options.about.howto3">悬停时右下角出现 HP 胶囊：批量反推、视频反推、提示词优化、历史都在这里</li>
+              <li data-i18n="options.about.howto4">结果自动存入历史，加标签沉淀成你的提示词素材库</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="global-toast"></div>
+  <script src="../shared/asset-shell.js"></script>
+  <script src="../shared/history-view.js"></script>
+  <script src="../shared/builtin-rules.js"></script>
+  <script type="module" src="options.js"></script>
+</body>
+
+</html>

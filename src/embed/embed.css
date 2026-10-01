@@ -1,0 +1,330 @@
+/* 浏览器级扩展窗口卡体样式（src/embed 各 surface 共用）——发布门一 §3。 */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  overflow: hidden; /* 卡体不整体滚，滚动交给内容区 .hp-embed-body */
+}
+
+body {
+  /* 卡体色 = 弹窗族卡体 slate 定值；原生 popup 不依赖宿主页 backdrop 采样。 */
+  background: rgba(30, 41, 59, 0.64);
+  color: #f1f5f9;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+  visibility: hidden;
+}
+
+body.hp-surface-ready { visibility: visible; }
+body.hp-surface-init-error { visibility: visible; }
+body.hp-surface-init-error #hp-embed-root { display: none; }
+
+/* Prompt/Batch/Video 的毛玻璃卡体由宿主页 closed-shadow shell 绘制，才能
+   采样真实页面；iframe/body 与内部卡体透明，避免形成第二层暗壳。 */
+body.hp-modal-surface {
+  background: transparent;
+  height: auto;
+  overflow: visible;
+}
+
+body.hp-modal-surface #hp-embed-root {
+  background: transparent;
+  height: auto;
+}
+
+body.hp-modal-surface #hyperprompt-modal {
+  position: relative !important;
+  inset: auto !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+body.hp-modal-surface #hyperprompt-modal .hp-modal-shell {
+  display: block;
+  flex: 0 1 auto;
+  width: 100%;
+  max-height: 100vh !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+body.hp-modal-surface .hp-video-enhance-card {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* main's action cards inherit the host page's box model. Preserve the two
+   width:100% textareas that visibly overflow their content-box card on pages
+   without a global border-box reset; the parent has already matched card width. */
+body.hp-legacy-content-box #hp-input,
+body.hp-legacy-content-box #hp-batch-urls {
+  box-sizing: content-box;
+}
+
+/* Prompt Guide 的结果井在 main 中没有显式 border-box；其 110px
+   min-height 之外还包含 10px 上下 padding 与边框。沿用宿主页探针结果，
+   避免 secure iframe 的全局 reset 把卡片肉眼压矮 22px。 */
+body.hp-legacy-content-box #pg-out {
+  box-sizing: content-box;
+}
+
+/* Video's 130px result well is also a content box in main. Without this scoped
+   override the secure iframe reset consumes its 28px padding + 2px border and
+   visibly shortens the initial Video card. */
+body.hp-legacy-content-box .hp-video-result {
+  box-sizing: content-box;
+}
+
+/* Batch thumbnails and their absolute checkbox inherit the source page's box
+   model and UA/site margin in main. Reapply the measured values after the
+   secure frame's reset so both the scan grid and queued rows keep that geometry. */
+body.hp-legacy-batch-image-content-box #hp-batch-scan-grid img,
+body.hp-legacy-batch-image-content-box #hp-batch-list img {
+  box-sizing: content-box;
+}
+
+body.hp-modal-surface .hp-batch-cand {
+  margin: var(--hp-main-batch-checkbox-margin, 0);
+}
+
+#hp-embed-root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+#hyperprompt-modal,
+.hp-modal-shell {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0; /* 允许内部 flex 子项滚动 */
+}
+
+/* 标题栏：标题 + 关闭钮 */
+.hp-embed-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 22px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+}
+
+.hp-embed-title {
+  font-family: 'Outfit', 'Inter', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.02em;
+}
+
+/* 关闭钮：ghost 玻璃（中性按钮定值 rgba(255,255,255,.05)+边.10+字 #cbd5e1），hover 转红 */
+.hp-embed-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 8px;
+  color: #cbd5e1;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.hp-embed-close:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.35);
+  color: #f87171;
+}
+
+/* Main showActionModal header: 18px Outfit title + textual Close control. */
+.hp-action-modal-titlebar {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 24px 18px;
+  padding: 24px 0 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.hp-action-modal-title {
+  margin: 0;
+  color: #fff;
+  font: 700 18px/1.25 'Outfit', 'Inter', sans-serif;
+  letter-spacing: 0.02em;
+}
+
+.hp-action-modal-close {
+  padding: 6px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #cbd5e1;
+  font: 500 12px/1.2 'Inter', sans-serif;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.hp-action-modal-close:hover {
+  border-color: rgba(239, 68, 68, 0.35);
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+}
+
+.hp-settings-recovery {
+  display: flex;
+  width: max-content;
+  margin-top: 8px;
+  padding: 6px 10px;
+  border: 1px solid rgba(69, 201, 171, 0.42);
+  border-radius: 8px;
+  background: rgba(20, 184, 166, 0.16);
+  color: #d1fae5;
+  cursor: pointer;
+}
+.hp-video-result-actions .hp-settings-recovery { margin-top: 0; }
+
+/* 内容区：滚动交给它（设置表单 / 历史列表） */
+.hp-embed-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 20px 22px 22px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+}
+
+/* showActionModal already supplies its own main-equivalent 24px content inset;
+   do not stack the generic Settings body padding below the 18px title gap. */
+.hp-action-modal-titlebar + .hp-embed-body {
+  padding: 0 24px 24px;
+}
+
+/* 主题化滚动条（6px 暗条，原生件谱系） */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.08); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.18); }
+::-webkit-scrollbar-corner { background: transparent; }
+::selection { background: rgba(20, 184, 166, 0.28); color: #f1f5f9; }
+
+/* embed 内 toast（顶部居中短提示；替代宿主页 __hpToast，中性微掺绿毛玻璃） */
+.hp-embed-toast {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translate(-50%, -8px);
+  max-width: 82%;
+  padding: 10px 16px;
+  background: rgba(40, 52, 48, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 10px;
+  color: #e2e8f0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease, transform 0.22s ease;
+  z-index: 100;
+}
+.hp-embed-toast.show {
+  opacity: 1;
+  transform: translate(-50%, 4px);
+}
+.hp-embed-toast.error {
+  border-color: rgba(248, 113, 113, 0.35);
+  color: #fca5a5;
+}
+
+body.hp-overlay-surface #hyperprompt-modal button,
+body.hp-overlay-surface .translation-btn {
+  transition-property: background-color, border-color, color, opacity, box-shadow !important;
+}
+
+body.hp-overlay-surface #hyperprompt-modal button:hover,
+body.hp-overlay-surface .translation-btn:hover,
+body.hp-overlay-surface .hp-settings-btn-save:hover:not(:disabled),
+body.hp-overlay-surface .hp-hist-detail-btn:hover,
+body.hp-overlay-surface .hp-hist-detail-close:hover,
+body.hp-overlay-surface .hp-hist-detail-image:hover img,
+body.hp-overlay-surface .hp-refset-thumb:hover img,
+body.hp-overlay-surface .hp-hist-detail-btn:hover .hp-btn-svg,
+body.hp-overlay-surface.hp-autostart .hp-embed-close:hover {
+  transform: none !important;
+}
+
+body.hp-overlay-surface #hyperprompt-modal button:active,
+body.hp-overlay-surface .translation-btn:active,
+body.hp-overlay-surface .hp-hist-detail-btn:active {
+  transform: none !important;
+}
+
+body.hp-overlay-surface .translation-btn,
+body.hp-overlay-surface #hyperprompt-modal button:not(.rm):not(.hp-video-frame-remove) {
+  position: relative !important;
+}
+
+body.hp-overlay-surface #hyperprompt-modal button:not(.rm):not(.hp-video-frame-remove):hover,
+body.hp-overlay-surface .translation-btn:hover {
+  top: -1px !important;
+}
+
+body.hp-overlay-surface #hyperprompt-modal button:not(.rm):not(.hp-video-frame-remove):active,
+body.hp-overlay-surface .translation-btn:active {
+  top: 1px !important;
+}
+
+body.hp-overlay-surface #hyperprompt-modal button.rm:hover,
+body.hp-overlay-surface #hyperprompt-modal button.hp-video-frame-remove:hover {
+  margin-top: -1px !important;
+}
+
+body.hp-overlay-surface #hyperprompt-modal button.rm:active,
+body.hp-overlay-surface #hyperprompt-modal button.hp-video-frame-remove:active {
+  margin-top: 1px !important;
+}
+
+body.hp-overlay-surface .hp-settings-btn-save:hover:not(:disabled) {
+  top: -1.5px !important;
+}
+
+body.hp-overlay-surface .hp-hist-detail-btn:hover {
+  position: relative !important;
+  top: -1.5px !important;
+}
+
+body.hp-overlay-surface .hp-hist-detail-btn:active {
+  position: relative !important;
+  top: 0.5px !important;
+}
+
+body.hp-overlay-surface .hp-refset-thumb:hover {
+  outline: 2px solid rgba(52, 166, 143, 0.5);
+  outline-offset: -2px;
+}
+
+body.hp-overlay-surface.hp-autostart .hp-embed-close:hover {
+  position: relative !important;
+  top: -1px !important;
+}

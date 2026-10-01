@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="./embed-lang.js"></script>
+  <title>HyperPrompt 历史</title>
+  <link rel="stylesheet" href="../shared/styles/fonts.css">
+  <link rel="stylesheet" href="./embed.css">
+</head>
+<body>
+<div id="hp-embed-root"></div>
+<!-- 加载顺序严格维护：asset-shell → builtin-rules → history-view → overlay-locales → content-common → content-select-ui
+     → content-streaming（可取消翻译）→ embed-common（提供 __hpShowActionModal 等 shim）
+     → content-rules（依赖 __hpStreaming + __hp，必须在 embed-common 之后）
+     → history.js（具体页渲染入口，最后加载） -->
+<script src="../shared/asset-shell.js"></script>
+<script src="../shared/builtin-rules.js"></script>
+<script src="../shared/history-view.js"></script>
+<script src="../shared/overlay-locales.js"></script>
+<script src="../content/content-common.js"></script>
+<script src="../content/content-select-ui.js"></script>
+<script src="../content/content-streaming.js"></script>
+<script src="./embed-common.js"></script>
+<script src="../content/content-rules.js"></script>
+<script src="./history.js"></script>
+</body>
+</html>

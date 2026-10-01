@@ -1,0 +1,268 @@
+.reverse-shell {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
+}
+
+.reverse-heading {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.reverse-status {
+  min-height: 18px;
+  color: #94a3b8;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.reverse-status.running::before {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 7px;
+  border: 1.5px solid rgba(155, 232, 214, 0.25);
+  border-top-color: #9be8d6;
+  border-radius: 50%;
+  content: '';
+  vertical-align: -1px;
+  animation: reverse-spin 0.8s linear infinite;
+}
+
+.reverse-status.error { color: #fca5a5; }
+.reverse-status.success { color: #9be8d6; }
+
+.reverse-main {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px 22px;
+}
+
+.reverse-preview-wrap {
+  display: flex;
+  min-height: 112px;
+  max-height: 168px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.38);
+}
+
+.reverse-preview {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 112px;
+  max-height: 168px;
+  object-fit: contain;
+}
+
+.reverse-output {
+  flex: 1;
+  min-height: 220px;
+  overflow: auto;
+  padding: 18px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.38);
+  color: #f1f5f9;
+  font-size: 13.5px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.reverse-output:empty::before {
+  color: #64748b;
+  content: '\00a0';
+}
+
+.reverse-actions {
+  display: flex;
+  min-height: 68px;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 9px;
+  padding: 14px 22px 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.reverse-btn {
+  min-width: 92px;
+  padding: 9px 15px;
+  border-radius: 8px;
+  font: 600 12.5px/1.2 'Inter', sans-serif;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+}
+
+.reverse-btn:disabled { cursor: not-allowed; opacity: 0.5; }
+
+.reverse-btn.primary {
+  border: 1px solid rgba(52, 166, 143, 0.45);
+  background: linear-gradient(135deg, rgba(50, 123, 104, 0.28), rgba(20, 184, 166, 0.12));
+  color: #9be8d6;
+}
+.reverse-btn.primary:not(:disabled):hover { background: rgba(50, 123, 104, 0.34); }
+
+.reverse-btn.secondary {
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.05);
+  color: #cbd5e1;
+}
+.reverse-btn.secondary:hover { border-color: rgba(255, 255, 255, 0.18); color: #ffffff; }
+.reverse-btn.secondary.active {
+  border-color: rgba(94, 234, 212, 0.38);
+  background: rgba(20, 184, 166, 0.14);
+  color: #ccfbf1;
+}
+
+.reverse-btn.danger {
+  border: 1px solid rgba(248, 113, 113, 0.30);
+  background: rgba(239, 68, 68, 0.10);
+  color: #fca5a5;
+}
+.reverse-btn.danger:hover { background: rgba(239, 68, 68, 0.18); }
+
+@keyframes reverse-spin { to { transform: rotate(360deg); } }
+
+/* ===== autoStart compact mode (anchored-over-image presentation) ===== */
+/* Body is positioned over the image; iframe backdrop-filter (via shadow DOM glass div)
+   provides the frosted glass; body adds the dark gradient tint. */
+body.hp-autostart {
+  position: relative;
+  background: transparent;
+}
+
+/* Compact title bar: just status badge + close button, tighter padding */
+body.hp-autostart .hp-embed-titlebar {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 3;
+  width: auto;
+  gap: 8px;
+  padding: 0;
+  border-bottom: none;
+}
+
+body.hp-autostart .reverse-heading { min-width: 0; }
+body.hp-autostart .reverse-status {
+  min-height: 0;
+  padding: 4px 10px;
+  border: 1px solid rgba(52, 166, 143, 0.35);
+  border-radius: 6px;
+  background: rgba(50, 123, 104, 0.20);
+  color: #9be8d6;
+  font-family: 'Outfit', 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+body.hp-autostart .reverse-status.running::before { display: none; }
+body.hp-autostart .reverse-status.success {
+  border-color: rgba(52, 166, 143, 0.32);
+  background: rgba(52, 166, 143, 0.16);
+  color: #9be8d6;
+}
+body.hp-autostart .reverse-status.error {
+  border-color: rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+}
+body.hp-autostart .hp-embed-close {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font: 500 13px/1 'Inter', sans-serif;
+}
+
+body.hp-autostart .hp-embed-close:hover {
+  border-color: rgba(239, 68, 68, 0.4);
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+  transform: scale(1.05);
+}
+
+body.hp-autostart #reverse-stop {
+  min-width: 0;
+  padding: 4px 10px;
+  border: 1px solid rgba(52, 166, 143, 0.35);
+  border-radius: 6px;
+  background: rgba(50, 123, 104, 0.14);
+  color: #9be8d6;
+  font-family: 'Outfit', 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+body.hp-autostart #reverse-stop:hover {
+  border-color: rgba(239, 68, 68, 0.4);
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+}
+
+/* Output area: transparent, fills space, white text with shadow for legibility on any image */
+body.hp-autostart .reverse-main {
+  position: absolute;
+  inset: 0;
+  display: block;
+  padding: 0;
+  gap: 0;
+}
+
+/* autoStart 没有预览井（main 的贴图浮层直接盖在原图上）。reverse.js 只置了
+   [hidden]，但上方 .reverse-preview-wrap 的作者级 display:flex 会压过 UA 的
+   [hidden]{display:none}，暗底(15,23,42,.38)井继续绘制，再经宿主 clip-path 的
+   status/output 命中窗漏出来 = 状态胶囊"黑色底座" + 输出区上沿"深色横带"伪影。 */
+body.hp-autostart .reverse-preview-wrap {
+  display: none;
+}
+
+body.hp-autostart .reverse-output {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  max-height: 70%;
+  overflow-y: auto;
+  background: transparent;
+  border: none;
+  padding: 16px 20px;
+  min-height: 0;
+  user-select: text;
+  color: #f8fafc;
+  line-height: 1.65;
+  overflow-wrap: normal;
+  word-break: break-word;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.65);
+}
+
+body.hp-autostart .reverse-output::-webkit-scrollbar { width: 4px; }
+body.hp-autostart .reverse-output::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+body.hp-autostart .reverse-output:empty::before { content: none; }
+
+/* Action bar: minimal, transparent */
+body.hp-autostart .reverse-actions {
+  display: none;
+}
+
+body.hp-autostart .reverse-btn {
+  min-width: 72px;
+  padding: 6px 12px;
+  font-size: 12px;
+}

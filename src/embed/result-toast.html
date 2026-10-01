@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="./embed-lang.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HyperPrompt Result</title>
+  <link rel="stylesheet" href="../shared/styles/fonts.css">
+  <link rel="stylesheet" href="./result-toast.css">
+</head>
+<body>
+  <section id="result-toast" class="result-toast" role="status" aria-live="polite">
+    <header class="result-toast-header">
+      <h1 id="result-toast-title"></h1>
+      <span id="result-toast-status"></span>
+    </header>
+    <div id="result-toast-body" class="result-toast-body" tabindex="0"></div>
+    <div class="result-toast-actions">
+      <button id="result-toast-copy" class="result-toast-btn" type="button"></button>
+      <button id="result-toast-translate" class="result-toast-btn" type="button"></button>
+    </div>
+    <div id="result-toast-progress" class="result-toast-progress" aria-hidden="true"></div>
+  </section>
+  <script src="./result-toast.js"></script>
+</body>
+</html>

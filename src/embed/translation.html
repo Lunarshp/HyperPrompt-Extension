@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="./embed-lang.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HyperPrompt Translation</title>
+  <link rel="stylesheet" href="../shared/styles/fonts.css">
+  <link rel="stylesheet" href="./embed.css">
+  <link rel="stylesheet" href="./translation.css">
+</head>
+<body>
+<div id="hp-embed-root">
+  <section class="translation-shell" data-hp-surface-size-root role="dialog" aria-modal="false" aria-labelledby="translation-title">
+    <header class="hp-embed-titlebar">
+      <div class="translation-heading">
+        <h1 id="translation-title" class="hp-embed-title">HyperPrompt</h1>
+        <span id="translation-status" class="translation-status" role="status" aria-live="polite"></span>
+      </div>
+      <button id="translation-close" class="hp-embed-close" type="button" aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </header>
+    <main class="translation-main">
+      <div id="translation-view-label" class="translation-view-label"></div>
+      <div id="translation-output" class="translation-output" tabindex="0" aria-live="polite"></div>
+    </main>
+    <footer class="translation-actions">
+      <button id="translation-copy" class="translation-btn" type="button" hidden></button>
+      <button id="translation-toggle" class="translation-btn secondary" type="button" hidden></button>
+    </footer>
+    <div id="translation-progress" class="translation-toast-progress" aria-hidden="true" hidden></div>
+  </section>
+</div>
+<script src="../shared/asset-shell.js"></script>
+<script src="../shared/builtin-rules.js"></script>
+<script src="../shared/overlay-locales.js"></script>
+<script src="../content/content-common.js"></script>
+<script src="../content/content-streaming.js"></script>
+<script src="./embed-common.js"></script>
+<script src="../content/content-rules.js"></script>
+<script src="./translation.js"></script>
+</body>
+</html>

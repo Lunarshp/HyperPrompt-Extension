@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="./embed-lang.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HyperPrompt Video Reverse</title>
+  <link rel="stylesheet" href="../shared/styles/fonts.css">
+  <link rel="stylesheet" href="../../assets/css/content.css">
+  <link rel="stylesheet" href="./embed.css">
+  <link rel="stylesheet" href="./modal-overrides.css">
+  <style>
+    html, body { min-width: 0; }
+    #hyperprompt-modal.hp-video-enhance-modal {
+      position: fixed;
+      inset: 0;
+      background: transparent;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+    .hp-video-enhance-card {
+      width: 100% !important;
+      max-width: none !important;
+      max-height: 100vh !important;
+      border: 0 !important;
+      border-radius: 0 !important;
+      background: transparent !important;
+      box-shadow: none !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+    }
+  </style>
+</head>
+<body class="hp-modal-surface">
+<div id="hp-embed-root"></div>
+<!-- Sensitive video inputs, instructions, frames, and model output stay extension-origin. -->
+<script src="../shared/asset-shell.js"></script>
+<script src="../shared/builtin-rules.js"></script>
+<script src="../shared/overlay-locales.js"></script>
+<script src="../content/content-common.js"></script>
+<script src="../content/content-select-ui.js"></script>
+<script src="../content/content-streaming.js"></script>
+<script src="./embed-common.js"></script>
+<script src="../content/content-rules.js"></script>
+<script src="../content/video-frame-picker.js"></script>
+<script src="../content/video-enhance-core.js"></script>
+<script src="../content/video-enhance-ui.js"></script>
+<script src="../content/video-enhance-frames.js"></script>
+<script src="../content/video-enhance.js"></script>
+</body>
+</html>

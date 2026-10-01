@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="./embed-lang.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HyperPrompt Prompt Guide</title>
+  <link rel="stylesheet" href="../shared/styles/fonts.css">
+  <link rel="stylesheet" href="../../assets/css/content.css">
+  <link rel="stylesheet" href="./embed.css">
+  <link rel="stylesheet" href="./modal-overrides.css">
+  <style>
+    #hyperprompt-modal {
+      position: fixed;
+      inset: 0;
+      background: transparent !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      font-family: 'Inter', sans-serif;
+    }
+    #pg-text,
+    #pg-rule {
+      background: rgba(44, 58, 82, 0.35);
+      color: #f1f5f9;
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      border-radius: 8px;
+      padding: 9px 11px;
+      outline: none;
+    }
+    #pg-text::placeholder { color: #64748b; }
+  </style>
+</head>
+<body class="hp-modal-surface">
+<div id="hp-embed-root"></div>
+<script src="../shared/asset-shell.js"></script>
+<script src="../shared/builtin-rules.js"></script>
+<script src="../shared/overlay-locales.js"></script>
+<script src="../content/content-common.js"></script>
+<script src="../content/content-select-ui.js"></script>
+<script src="../content/content-streaming.js"></script>
+<script src="./embed-common.js"></script>
+<script src="../content/content-rules.js"></script>
+<script src="./page-image.js"></script>
+<script src="../content/prompt-guide.js"></script>
+</body>
+</html>
